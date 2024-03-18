@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Мар 11 2024 г., 21:34
+-- Время создания: Мар 18 2024 г., 09:23
 -- Версия сервера: 10.4.32-MariaDB
 -- Версия PHP: 8.2.12
 
@@ -137,9 +137,10 @@ CREATE TABLE `members` (
 --
 
 INSERT INTO `members` (`user_id`, `fullname`, `username`, `password`, `gender`, `dor`, `services`, `amount`, `paid_date`, `p_year`, `plan`, `address`, `contact`, `status`, `attendance_count`, `ini_weight`, `curr_weight`, `ini_bodytype`, `curr_bodytype`, `progress_date`, `reminder`) VALUES
-(39, 'Иванов Иван Иванович', 'ivanovivan', '5a8b6108cf9ce70d7382befcd2c169fe', 'Мужской', '2023-11-01', 'Фитнес', 10000, '0000-00-00', 2024, '1', 'Казань, ул. Красносельская, д. 51', '9001001010', 'Active', 37, 120, 95, 'Избыточный вес', 'Плотное', '2024-03-11', 0),
-(40, 'Смирнов Иван Иванович', 'smirnovivan', 'c631473c6ce6a225b2dff904474fc148', 'Мужской', '2023-11-02', 'Кардио', 48000, '2024-03-11', 2024, '6', 'Казань, ул. Декабристов, д. 131', '9001001111', 'Active', 5, 0, 0, '', '', '0000-00-00', 0),
-(41, 'Белов Алексей Романович', 'belovalexey', 'c62de066c0f4ed9a01a561005218f1ea', 'Мужской', '2023-11-03', 'Кардио', 8000, '2024-03-11', 2024, '1', 'Казань, ул. Чистопольская, д. 12', '9001001212', 'Active', 10, 0, 0, '', '', '0000-00-00', 0);
+(39, 'Иванов Иван Иванович', 'ivanovivan', '5a8b6108cf9ce70d7382befcd2c169fe', 'Мужской', '2023-11-01', 'Фитнес', 40, '0000-00-00', 2024, '1', 'Казань, ул. Красносельская, д. 51', '9001001010', 'Active', 2, 120, 95, 'Избыточный вес', 'Плотное', '2024-03-11', 1),
+(40, 'Смирнов Иван Иванович', 'smirnovivan', 'c631473c6ce6a225b2dff904474fc148', 'Мужской', '2023-11-02', 'Кардио', 48000, '2024-03-11', 2024, '6', 'Казань, ул. Декабристов, д. 131', '9001001111', 'Active', 5, 0, 0, '', '', '0000-00-00', 1),
+(41, 'Белов Алексей Романович', 'belovalexey', 'c62de066c0f4ed9a01a561005218f1ea', 'Мужской', '2023-11-03', 'Кардио', 8000, '2024-03-11', 2024, '1', 'Казань, ул. Чистопольская, д. 12', '9001001212', 'Active', 10, 0, 0, '', '', '0000-00-00', 1),
+(51, 'Черных Валерий Иванович', 'chernykhvalery', '189b22607d466683335a6e44196c552e', 'Мужской', '2024-03-18', 'Сауна', 30000, '2024-03-18', 2024, '6', 'Казань, ул. Чистопольская, д. 25', '9001001313', 'Active', 0, 0, 0, '', '', '0000-00-00', 0);
 
 -- --------------------------------------------------------
 
@@ -211,7 +212,8 @@ CREATE TABLE `staffs` (
 
 INSERT INTO `staffs` (`user_id`, `username`, `password`, `email`, `fullname`, `address`, `designation`, `gender`, `contact`) VALUES
 (6, 'arnoldschwarzenegger', 'fe61aa31009a322dce4bb57f8d53ad74', 'arnoldschwarzenegger@gmail.com', ' Арнольд Шварценеггер', 'г. Лос-Анжелес, США', 'Тренер (зал)', 'Мужской', '2121234567'),
-(11, 'nevskyalexander', '248592b4d3dda8886e337e0ee9660db0', 'nevskyalexander@gmail.com', 'Невский Александр Александрович', 'г. Москва, Россия', 'Тренер (зал)', 'Мужской', '9873332211');
+(11, 'nevskyalexander', '248592b4d3dda8886e337e0ee9660db0', 'nevskyalexander@gmail.com', 'Невский Александр Александрович', 'г. Москва, Россия', 'Тренер (зал)', 'Мужской', '9873332211'),
+(13, 'hasbik', '89114437c407ededddf1335d8f0e06eb', 'hasbik@gmail.com', 'Хасбик Магомедов', 'г. Махачкала, Россия', 'Тренер (зал)', 'Мужской', '8721001010');
 
 -- --------------------------------------------------------
 
@@ -237,7 +239,10 @@ INSERT INTO `todo` (`id`, `task_status`, `task_desc`, `user_id`) VALUES
 (23, 'In Progress', 'Triceps Buildup - 3 set', 14),
 (24, 'Pending', 'Decline dumbbell bench press', 6),
 (27, 'Pending', 'dddd', 0),
-(28, 'In Progress', 'Test 1', 23);
+(28, 'In Progress', 'Test 1', 23),
+(44, 'In Progress', '44', 0),
+(53, 'In Progress', 'Планка 5 мин', 2),
+(54, 'In Progress', 'Планка 5 мин', 51);
 
 --
 -- Индексы сохранённых таблиц
@@ -317,19 +322,19 @@ ALTER TABLE `announcements`
 -- AUTO_INCREMENT для таблицы `attendance`
 --
 ALTER TABLE `attendance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT для таблицы `equipment`
 --
 ALTER TABLE `equipment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT для таблицы `members`
 --
 ALTER TABLE `members`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT для таблицы `rates`
@@ -347,13 +352,13 @@ ALTER TABLE `reminder`
 -- AUTO_INCREMENT для таблицы `staffs`
 --
 ALTER TABLE `staffs`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT для таблицы `todo`
 --
 ALTER TABLE `todo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
