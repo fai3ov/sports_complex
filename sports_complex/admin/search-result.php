@@ -10,7 +10,7 @@ header('location:../index.php');
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Sports Complex</title>
+<title>Sports Complex Admin</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="stylesheet" href="../css/bootstrap.min.css" />
@@ -51,7 +51,7 @@ header('location:../index.php');
             <h5>Таблица платежей клиентов</h5>
             <form id="custom-search-form" role="search" method="POST" action="search-result.php" class="form-search form-horizontal pull-right">
                 <div class="input-append span12">
-                    <input type="text" class="search-query" placeholder="Search" name="search" required>
+                    <input type="text" class="search-query" placeholder="Поиск" name="search" required>
                     <button type="submit" class="btn"><i class="fas fa-search"></i></button>
                 </div>
             </form>
