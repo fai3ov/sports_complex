@@ -1,15 +1,16 @@
 <?php
 session_start();
-//the isset function to check username is already loged in and stored on the session
+
+// Функция isset используется для проверки, залогинен ли уже пользователь и сохранены ли его данные в сессии.
 if(!isset($_SESSION['user_id'])){
 header('location:../index.php');	
 }
 ?>
-<!-- Visit codeastro.com for more projects -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Gym System</title>
+<title>Sports Complex Customer</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="stylesheet" href="../css/bootstrap.min.css" />
@@ -25,14 +26,14 @@ header('location:../index.php');
 
 <!--Header-part-->
 <div id="header">
-  <h1><a href="index.php">Perfect Gym System</a></h1>
+  <h1><a href="index.php">Sports Complex Customer</a></h1>
 </div>
 <!--close-Header-part--> 
-
 
 <!--top-Header-menu-->
 <?php include '../includes/topheader.php'?>
 <!--close-top-Header-menu-->
+
 <!--sidebar-menu-->
 <?php $page="todo"; include '../includes/sidebar.php'?>
 <!--sidebar-menu-->
@@ -41,7 +42,7 @@ header('location:../index.php');
 <div id="content">
 <!--breadcrumbs-->
   <div id="content-header">
-    <div id="breadcrumb"> <a href="index.php" title="You're right here" class="tip-bottom"><i class="icon-home"></i> Home</a></div>
+      <div id="breadcrumb"> <a href="index.php" title="Перейти на главную страницу" class="tip-bottom"><i class="icon-home"></i> Главная страница</a> <a href="to-do.php" class="current">Список дел</a> </div>
   </div>
 <!--End-breadcrumbs-->
 
@@ -55,7 +56,7 @@ header('location:../index.php');
     <div class="span12">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-pencil"></i> </span>
-            <h5>Update To-Do Lists</h5>
+            <h5>Обновить список дел</h5>
           </div>
    
           <div class="widget-content nopadding">
@@ -69,25 +70,25 @@ header('location:../index.php');
       while($row=mysqli_fetch_array($result)){
 ?> 
               <div class="control-group">
-                <label class="control-label">Please Enter Your Task :</label>
+                <label class="control-label">Ваша задача :</label>
                 <div class="controls">
                     <input type="text" class="span11" name="task_desc" value='<?php echo $row['task_desc']; ?>' />
                 </div>
                 </div>
 
                  <div class="control-group">
-                    <label class="control-label">Please Select a Status:</label>
+                    <label class="control-label">Статус задачи :</label>
                     <div class="controls">
                         <select name="task_status" required="required" id="select">
-                        <option value="In Progress">In Progress</option>
-                        <option value="Pending">Pending</option>
+                        <option value="In Progress">В процессе</option>
+                        <option value="Pending">В ожидании</option>
                         </select>
                     </div>
                 </div>
 
               <div class="form-actions">
               <input type="hidden" name="id" value="<?php echo $id; ?>">
-                <input id="add" class="btn btn-primary" type="submit" value="Save Changes" />
+                <input id="add" class="btn btn-primary" type="submit" value="Сохранить изменения" />
                 <div id="status"></div>
               </div>
               <div id="submitted"></div>
@@ -99,9 +100,6 @@ header('location:../index.php');
 ?>
         </div><!--end of widget box-->
       </div><!--end of span 12 -->
-	  
-	  
-	  
     </div><!-- End of row-fluid -->
   </div><!-- End of container-fluid -->
 </div><!-- End of content-ID -->
@@ -109,17 +107,15 @@ header('location:../index.php');
 <!--end-main-container-part-->
 
 <!--Footer-part-->
-
 <div class="row-fluid">
-  <div id="footer" class="span12"> <?php echo date("Y");?> &copy; Developed By Naseeb Bajracharya</a> </div>
+    <div id="footer" class="span12"> <?php echo date("Y"); ?> &copy; Developed By Ilfat Faizov</a> </div>
 </div>
 
 <style>
-#footer {
-  color: white;
-}
+    #footer {
+        color: white;
+    }
 </style>
-
 <!--end-Footer-part-->
 
 <script src="../js/excanvas.min.js"></script> 
@@ -142,31 +138,31 @@ header('location:../index.php');
 <script src="../js/select2.min.js"></script> 
 <script src="../js/matrix.popover.js"></script> 
 <script src="../js/jquery.dataTables.min.js"></script> 
-<script src="../js/matrix.tables.js"></script> 
+<script src="../js/matrix.tables.js"></script>
 
 <script type="text/javascript">
-  // This function is called from the pop-up menus to transfer to
-  // a different page. Ignore if the value returned is a null string:
-  function goPage (newURL) {
+    // Эта функция вызывается из всплывающих меню для перехода на другую страницу.
+    // Игнорировать, если возвращаемое значение является пустой строкой.
+    function goPage(newURL) {
 
-      // if url is empty, skip the menu dividers and reset the menu selection to default
-      if (newURL != "") {
-      
-          // if url is "-", it is this page -- reset the menu:
-          if (newURL == "-" ) {
-              resetMenu();            
-          } 
-          // else, send page to designated URL            
-          else {  
-            document.location.href = newURL;
-          }
-      }
-  }
+        // Если URL пуст, пропустить разделители меню и сбросить выбор в меню на значение по умолчанию:
+        if (newURL != "") {
 
-// resets the menu selection upon entry to this page:
-function resetMenu() {
-   document.gomenu.selector.selectedIndex = 2;
-}
+            // Если URL равен "-", это текущая страница - сбросить меню:
+            if (newURL == "-") {
+                resetMenu();
+            }
+            // В противном случае, перейти на указанный URL:
+            else {
+                document.location.href = newURL;
+            }
+        }
+    }
+
+    // Сбрасывает выбор в меню при входе на страницу
+    function resetMenu() {
+        document.gomenu.selector.selectedIndex = 2;
+    }
 </script>
 </body>
 </html>
