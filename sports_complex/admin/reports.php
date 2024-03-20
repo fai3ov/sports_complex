@@ -180,7 +180,7 @@ $result=mysqli_query($con,$qry);
   </div>
 
   <div id="content-header">
-    <h1 class="text-center">Отчёт о зарегестрированных участниках <i class="fas fa-chart-bar"></i></h1>
+    <h1 class="text-center">Отчёт о зарегистрированных участниках <i class="fas fa-chart-bar"></i></h1>
   </div>
   <div class="container-fluid">
     
