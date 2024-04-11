@@ -70,7 +70,7 @@ header('location:../index.php');
                   <th>Полное имя</th>
                   <th>Телефон</th>
                   <th>Выбранные услуги</th>
-                  <th>План</th>
+                  <th>Текущий план</th>
                   <th>Статус клиента</th>
                 </tr>
               </thead>";
@@ -84,7 +84,7 @@ header('location:../index.php');
                 <td><div class='text-center'><?php echo $row['contact'];?></div></td>
                 <td><div class='text-center'><?php echo $row['services'];?></div></td>
                 <td><div class='text-center'><?php echo $row['plan'];?> мес.</div></td>
-                <td><div class='text-center'><?php if( $row['status'] == 'Active' ){ echo '<i class="fas fa-circle" style="color:green;"></i> Активен';} else if ($row['status'] == 'Expired') { echo '<i class="fas fa-circle" style="color:red;"></i> Истёк';} else { echo '<i class="fas fa-circle" style="color:orange;"></i> Ожидает регистрации';}?></div></td>
+                <td><div class='text-center'><?php if( $row['status'] == 'Active' ){ echo '<i class="fas fa-circle" style="color:green;"></i> Активен';} else if ($row['status'] == 'Pending') { echo '<i class="fas fa-circle" style="color:orange;"></i> Ожидает оплаты';}?></div></td>
                 
               </tbody>
           <?php
@@ -92,7 +92,7 @@ header('location:../index.php');
             ?>
 
             </table>
-          </div>
+          </div
         </div>
       </div>
     </div>

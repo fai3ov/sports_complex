@@ -2,36 +2,36 @@
 session_start();
 
 // Функция isset используется для проверки, залогинен ли уже пользователь и сохранены ли его данные в сессии.
-if(!isset($_SESSION['user_id'])){
-header('location:../index.php');	
+if (!isset($_SESSION['user_id'])) {
+    header('location:../index.php');
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Sports Complex Staff</title>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="../css/bootstrap.min.css" />
-<link rel="stylesheet" href="../css/bootstrap-responsive.min.css" />
-<link rel="stylesheet" href="../css/fullcalendar.css" />
-<link rel="stylesheet" href="../css/matrix-style.css" />
-<link rel="stylesheet" href="../css/matrix-media.css" />
-<link href="../font-awesome/css/font-awesome.css" rel="stylesheet" />
-<link rel="stylesheet" href="../css/jquery.gritter.css" />
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+    <title>Sports Complex Staff</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="../css/fullcalendar.css"/>
+    <link rel="stylesheet" href="../css/matrix-style.css"/>
+    <link rel="stylesheet" href="../css/matrix-media.css"/>
+    <link href="../font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../css/jquery.gritter.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 </head>
 <body>
 
 <!--Header-part-->
 <div id="header">
-  <h1><a href="dashboard.html">Sports Complex Staff</a></h1>
+    <h1><a href="dashboard.html">Sports Complex Staff</a></h1>
 </div>
-<!--close-Header-part--> 
+<!--close-Header-part-->
 
 <!--top-Header-menu-->
-<?php include '../includes/header.php'?>
+<?php include '../includes/header.php' ?>
 <!--close-top-Header-menu-->
 <!--start-top-serch-->
 <!-- <div id="search">
@@ -41,20 +41,23 @@ header('location:../index.php');
 <!--close-top-serch-->
 
 <!--sidebar-menu-->
-<?php $page="member"; include '../includes/sidebar.php'?>
+<?php $page = "member";
+include '../includes/sidebar.php' ?>
 <!--sidebar-menu-->
 
 <?php
 include 'dbcon.php';
-$id=$_GET['id'];
-$qry= "select * from members where user_id='$id'";
-$result=mysqli_query($conn,$qry);
-while($row=mysqli_fetch_array($result)){
+$id = $_GET['id'];
+$qry = "select * from members where user_id='$id'";
+$result = mysqli_query($conn, $qry);
+while ($row = mysqli_fetch_array($result)){
 ?>
 
 <div id="content">
     <div id="content-header">
-        <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Главная страница</a> <a href="members.php" class="tip-bottom">Клиенты спорткомплекса</a> <a href="edit-member.php" class="current">Обновление данных клиентов</a> </div>
+        <div id="breadcrumb"><a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>
+                Главная страница</a> <a href="members.php" class="tip-bottom">Клиенты спорткомплекса</a> <a
+                    href="edit-member.php" class="current">Обновление данных клиентов</a></div>
         <h1>Обновление данных клиентов</h1>
     </div>
     <div class="container-fluid">
@@ -62,7 +65,7 @@ while($row=mysqli_fetch_array($result)){
         <div class="row-fluid">
             <div class="span6">
                 <div class="widget-box">
-                    <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                    <div class="widget-title"> <span class="icon"> <i class="fas fa-align-justify"></i> </span>
                         <h5>Личная информация</h5>
                     </div>
                     <div class="widget-content nopadding">
@@ -91,15 +94,15 @@ while($row=mysqli_fetch_array($result)){
                                 <label class="control-label">Пол :</label>
                                 <div class="controls">
                                     <select name="gender" required="required" id="select">
-                                        <option value="Мужской" selected="selected">Мужской</option>
-                                        <option value="Женский">Женский</option>
+                                        <option value="Мужской" <?php if ($row['gender'] == 'Мужской') echo 'selected="selected"'; ?>>Мужской</option>
+                                        <option value="Женский" <?php if ($row['gender'] == 'Женский') echo 'selected="selected"'; ?>>Женский</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">Дата регистрации :</label>
+                                <label class="control-label">Дата рождения :</label>
                                 <div class="controls">
-                                    <input type="date" name="dor" class="span11" value='<?php echo $row['dor']; ?>' />
+                                    <input type="date" name="dob" class="span11" value='<?php echo $row['dob']; ?>' />
                                 </div>
                             </div>
 
@@ -115,11 +118,11 @@ while($row=mysqli_fetch_array($result)){
                                 <div class="control-group">
                                     <label for="normal" class="control-label">План: </label>
                                     <div class="controls">
-                                        <select name="plan" required="required" id="select">
-                                            <option value="1" selected="selected">1 месяц</option>
-                                            <option value="3">3 месяца</option>
-                                            <option value="6">6 месяцев</option>
-                                            <option value="12">1 год</option>
+                                        <select name="plan" required="required" id="planSelect">
+                                            <option value="1" <?php if ($row['plan'] == '1') echo 'selected="selected"'; ?>>1 месяц</option>
+                                            <option value="3" <?php if ($row['plan'] == '3') echo 'selected="selected"'; ?>>3 месяца</option>
+                                            <option value="6" <?php if ($row['plan'] == '6') echo 'selected="selected"'; ?>>6 месяцев</option>
+                                            <option value="12" <?php if ($row['plan'] == '12') echo 'selected="selected"'; ?>>1 год</option>
                                         </select>
                                     </div>
                                 </div>
@@ -133,7 +136,7 @@ while($row=mysqli_fetch_array($result)){
 
             <div class="span6">
                 <div class="widget-box">
-                    <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                    <div class="widget-title"> <span class="icon"> <i class="fas fa-align-justify"></i> </span>
                         <h5>Контактная информация</h5>
                     </div>
                     <div class="widget-content nopadding">
@@ -153,7 +156,7 @@ while($row=mysqli_fetch_array($result)){
                             </div>
                         </div>
 
-                        <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                        <div class="widget-title"> <span class="icon"> <i class="fas fa-align-justify"></i> </span>
                             <h5>Подробности об услугах</h5>
                         </div>
                         <div class="widget-content nopadding">
@@ -162,17 +165,26 @@ while($row=mysqli_fetch_array($result)){
 
                                 <div class="control-group">
                                     <label class="control-label">Услуги</label>
+                                    <?php
+                                    // Преобразование строки услуг клиента в массив
+                                    $selectedServices = explode(', ', $row['services']);
+                                    ?>
+
                                     <div class="controls">
                                         <label>
-                                            <input type="radio" value="Фитнес" name="services" />
-                                            Фитнес <small>- 10 000 руб./мес.</small></label>
+                                            <input type="checkbox" value="Фитнес" name="services[]" <?php echo in_array('Фитнес', $selectedServices) ? 'checked' : ''; ?> />
+                                            Фитнес <small>- 10 000 руб./мес.</small>
+                                        </label>
                                         <label>
-                                            <input type="radio" value="Сауна" name="services" />
-                                            Сауна <small>- 5 000 руб./мес.</small></label>
+                                            <input type="checkbox" value="Сауна" name="services[]" <?php echo in_array('Сауна', $selectedServices) ? 'checked' : ''; ?> />
+                                            Сауна <small>- 5 000 руб./мес.</small>
+                                        </label>
                                         <label>
-                                            <input type="radio" value="Кардио" name="services" />
-                                            Кардио <small>- 8 000 руб./мес.</small></label>
+                                            <input type="checkbox" value="Кардио" name="services[]" <?php echo in_array('Кардио', $selectedServices) ? 'checked' : ''; ?> />
+                                            Кардио <small>- 8 000 руб./мес.</small>
+                                        </label>
                                     </div>
+
                                 </div>
 
                                 <div class="control-group">
@@ -180,7 +192,7 @@ while($row=mysqli_fetch_array($result)){
                                     <div class="controls">
                                         <div class="input-append">
                                             <span class="add-on">₽</span>
-                                            <input type="number" value='<?php echo $row['amount']; ?>' name="amount" class="span11">
+                                            <input type="number" value='<?php echo $row['amount']; ?>' name="amount" class="span11" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -203,30 +215,32 @@ while($row=mysqli_fetch_array($result)){
                     </div>
                 </div>
             </div>
-  
-  <div class="row-fluid">
-    <div class="widget-box">
-      <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
-        <h5>Заметка</h5>
-      </div>
-      <div class="widget-content">
-        <div class="control-group">
-          <form>
-            <div class="controls">
-              <textarea class="textarea_editor span12" rows="6" placeholder="Введите текст..."></textarea>
-            </div>
-          </form>
         </div>
-      </div>
+
+            <div class="row-fluid">
+                <div class="widget-box">
+                    <div class="widget-title"><span class="icon"> <i class="icon-align-justify"></i> </span>
+                        <h5>Заметка</h5>
+                    </div>
+                    <div class="widget-content">
+                        <div class="control-group">
+                            <form>
+                                <div class="controls">
+                                    <textarea class="textarea_editor span12" rows="6"
+                                              placeholder="Введите текст..."></textarea>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-    </div>
-<!--end-main-container-part-->
+    <!--end-main-container-part-->
 
     <!--Footer-part-->
     <div class="row-fluid">
-        <div id="footer" class="span12"> <?php echo date("Y");?> &copy; Developed By Ilfat Faizov</a> </div>
+        <div id="footer" class="span12"> <?php echo date("Y"); ?> &copy; Developed By Ilfat Faizov</a> </div>
     </div>
 
     <style>
@@ -236,38 +250,94 @@ while($row=mysqli_fetch_array($result)){
     </style>
     <!--end-Footer-part-->
 
-<script src="../js/excanvas.min.js"></script> 
-<script src="../js/jquery.min.js"></script> 
-<script src="../js/jquery.ui.custom.js"></script> 
-<script src="../js/bootstrap.min.js"></script> 
-<script src="../js/jquery.flot.min.js"></script> 
-<script src="../js/jquery.flot.resize.min.js"></script> 
-<script src="../js/jquery.peity.min.js"></script> 
-<script src="../js/fullcalendar.min.js"></script> 
-<script src="../js/matrix.js"></script> 
-<script src="../js/matrix.dashboard.js"></script> 
-<script src="../js/jquery.gritter.min.js"></script> 
-<script src="../js/matrix.interface.js"></script> 
-<script src="../js/matrix.chat.js"></script> 
-<script src="../js/jquery.validate.js"></script> 
-<script src="../js/matrix.form_validation.js"></script> 
-<script src="../js/jquery.wizard.js"></script> 
-<script src="../js/jquery.uniform.js"></script> 
-<script src="../js/select2.min.js"></script> 
-<script src="../js/matrix.popover.js"></script> 
-<script src="../js/jquery.dataTables.min.js"></script> 
-<script src="../js/matrix.tables.js"></script>
+    <script src="../js/excanvas.min.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/jquery.ui.custom.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jquery.flot.min.js"></script>
+    <script src="../js/jquery.flot.resize.min.js"></script>
+    <script src="../js/jquery.peity.min.js"></script>
+    <script src="../js/fullcalendar.min.js"></script>
+    <script src="../js/matrix.js"></script>
+    <script src="../js/matrix.dashboard.js"></script>
+    <script src="../js/jquery.gritter.min.js"></script>
+    <script src="../js/matrix.interface.js"></script>
+    <script src="../js/matrix.chat.js"></script>
+    <script src="../js/jquery.validate.js"></script>
+    <script src="../js/matrix.form_validation.js"></script>
+    <script src="../js/jquery.wizard.js"></script>
+    <script src="../js/jquery.uniform.js"></script>
+    <script src="../js/select2.min.js"></script>
+    <script src="../js/matrix.popover.js"></script>
+    <script src="../js/jquery.dataTables.min.js"></script>
+    <script src="../js/matrix.tables.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function updateTotal() {
+            // Обновите идентификатор для вашего элемента выбора плана здесь
+            var selectedPlan = document.getElementById('planSelect').value;
+
+            var planMultiplier = {
+                '1': 1,
+                '3': 3,
+                '6': 6,
+                '12': 12
+            };
+
+            var servicePrices = {
+                'Фитнес': 10000,
+                'Сауна': 5000,
+                'Кардио': 8000
+            };
+
+            var serviceCheckboxes = document.querySelectorAll('input[name="services[]"]:checked');
+            var total = 0;
+
+            serviceCheckboxes.forEach(function(checkbox) {
+                total += servicePrices[checkbox.value];
+            });
+
+            // Применяем множитель плана к итоговой сумме
+            total *= planMultiplier[selectedPlan];
+
+            document.querySelector('input[name="amount"]').value = total;
+        }
+
+        // Обновите идентификатор здесь также
+        document.getElementById('planSelect').addEventListener('change', updateTotal);
+
+        document.querySelectorAll('input[name="services[]"]').forEach(function(checkbox) {
+            checkbox.addEventListener('change', updateTotal);
+        });
+
+        document.getElementById('memberForm').addEventListener('submit', function(event) {
+            // Поиск всех чекбоксов с именем 'services[]'
+            var services = document.querySelectorAll('input[name="services[]"]');
+            var serviceSelected = Array.from(services).some(checkbox => checkbox.checked);
+
+            // Если услуга не выбрана, предотвратить отправку формы и показать сообщение
+            if(!serviceSelected) {
+                event.preventDefault(); // Предотвращение отправки формы
+                alert('Пожалуйста, выберите хотя бы одну услугу.');
+            }
+        });
+
+        // Инициализация итоговой суммы при загрузке страницы
+        updateTotal();
+    });
+</script>
 
     <script type="text/javascript">
         // Эта функция вызывается из всплывающих меню для перехода на другую страницу.
         // Игнорировать, если возвращаемое значение является пустой строкой.
-        function goPage (newURL) {
+        function goPage(newURL) {
 
             // Если URL пуст, пропустить разделители меню и сбросить выбор в меню на значение по умолчанию:
             if (newURL != "") {
 
                 // Если URL равен "-", это текущая страница - сбросить меню:
-                if (newURL == "-" ) {
+                if (newURL == "-") {
                     resetMenu();
                 }
                 // В противном случае, перейти на указанный URL:

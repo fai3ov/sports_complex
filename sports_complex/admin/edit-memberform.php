@@ -86,15 +86,15 @@ while($row=mysqli_fetch_array($result)){
                                 <label class="control-label">Пол :</label>
                                 <div class="controls">
                                     <select name="gender" required="required" id="select">
-                                        <option value="Мужской" selected="selected">Мужской</option>
-                                        <option value="Женский">Женский</option>
+                                        <option value="Мужской" <?php if ($row['gender'] == 'Мужской') echo 'selected="selected"'; ?>>Мужской</option>
+                                        <option value="Женский" <?php if ($row['gender'] == 'Женский') echo 'selected="selected"'; ?>>Женский</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">Дата регистрации :</label>
+                                <label class="control-label">Дата рождения :</label>
                                 <div class="controls">
-                                    <input type="date" name="dor" class="span11" value='<?php echo $row['dor']; ?>' />
+                                    <input type="date" name="dob" class="span11" value='<?php echo $row['dob']; ?>' />
                                 </div>
                             </div>
 
@@ -110,11 +110,11 @@ while($row=mysqli_fetch_array($result)){
                                 <div class="control-group">
                                     <label for="normal" class="control-label">План: </label>
                                     <div class="controls">
-                                        <select name="plan" required="required" id="select">
-                                            <option value="1" selected="selected">1 месяц</option>
-                                            <option value="3">3 месяца</option>
-                                            <option value="6">6 месяцев</option>
-                                            <option value="12">1 год</option>
+                                        <select name="plan" required="required" id="planSelect">
+                                            <option value="1" <?php if ($row['plan'] == '1') echo 'selected="selected"'; ?>>1 месяц</option>
+                                            <option value="3" <?php if ($row['plan'] == '3') echo 'selected="selected"'; ?>>3 месяца</option>
+                                            <option value="6" <?php if ($row['plan'] == '6') echo 'selected="selected"'; ?>>6 месяцев</option>
+                                            <option value="12" <?php if ($row['plan'] == '12') echo 'selected="selected"'; ?>>1 год</option>
                                         </select>
                                     </div>
                                 </div>
@@ -157,17 +157,26 @@ while($row=mysqli_fetch_array($result)){
 
                                 <div class="control-group">
                                     <label class="control-label">Услуги</label>
+                                    <?php
+                                    // Преобразование строки услуг клиента в массив
+                                    $selectedServices = explode(', ', $row['services']);
+                                    ?>
+
                                     <div class="controls">
                                         <label>
-                                            <input type="radio" value="Фитнес" name="services" />
-                                            Фитнес <small>- 10 000 руб./мес.</small></label>
+                                            <input type="checkbox" value="Фитнес" name="services[]" <?php echo in_array('Фитнес', $selectedServices) ? 'checked' : ''; ?> />
+                                            Фитнес <small>- 10 000 руб./мес.</small>
+                                        </label>
                                         <label>
-                                            <input type="radio" value="Сауна" name="services" />
-                                            Сауна <small>- 5 000 руб./мес.</small></label>
+                                            <input type="checkbox" value="Сауна" name="services[]" <?php echo in_array('Сауна', $selectedServices) ? 'checked' : ''; ?> />
+                                            Сауна <small>- 5 000 руб./мес.</small>
+                                        </label>
                                         <label>
-                                            <input type="radio" value="Кардио" name="services" />
-                                            Кардио <small>- 8 000 руб./мес.</small></label>
+                                            <input type="checkbox" value="Кардио" name="services[]" <?php echo in_array('Кардио', $selectedServices) ? 'checked' : ''; ?> />
+                                            Кардио <small>- 8 000 руб./мес.</small>
+                                        </label>
                                     </div>
+
                                 </div>
 
                                 <div class="control-group">
@@ -175,7 +184,7 @@ while($row=mysqli_fetch_array($result)){
                                     <div class="controls">
                                         <div class="input-append">
                                             <span class="add-on">₽</span>
-                                            <input type="number" value='<?php echo $row['amount']; ?>' name="amount" class="span11">
+                                            <input type="number" value='<?php echo $row['amount']; ?>' name="amount" class="span11" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -236,6 +245,62 @@ while($row=mysqli_fetch_array($result)){
     <script src="../js/matrix.popover.js"></script>
     <script src="../js/jquery.dataTables.min.js"></script>
     <script src="../js/matrix.tables.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function updateTotal() {
+                // Обновите идентификатор для вашего элемента выбора плана здесь
+                var selectedPlan = document.getElementById('planSelect').value;
+
+                var planMultiplier = {
+                    '1': 1,
+                    '3': 3,
+                    '6': 6,
+                    '12': 12
+                };
+
+                var servicePrices = {
+                    'Фитнес': 10000,
+                    'Сауна': 5000,
+                    'Кардио': 8000
+                };
+
+                var serviceCheckboxes = document.querySelectorAll('input[name="services[]"]:checked');
+                var total = 0;
+
+                serviceCheckboxes.forEach(function(checkbox) {
+                    total += servicePrices[checkbox.value];
+                });
+
+                // Применяем множитель плана к итоговой сумме
+                total *= planMultiplier[selectedPlan];
+
+                document.querySelector('input[name="amount"]').value = total;
+            }
+
+            // Обновите идентификатор здесь также
+            document.getElementById('planSelect').addEventListener('change', updateTotal);
+
+            document.querySelectorAll('input[name="services[]"]').forEach(function(checkbox) {
+                checkbox.addEventListener('change', updateTotal);
+            });
+
+            document.getElementById('memberForm').addEventListener('submit', function(event) {
+                // Поиск всех чекбоксов с именем 'services[]'
+                var services = document.querySelectorAll('input[name="services[]"]');
+                var serviceSelected = Array.from(services).some(checkbox => checkbox.checked);
+
+                // Если услуга не выбрана, предотвратить отправку формы и показать сообщение
+                if(!serviceSelected) {
+                    event.preventDefault(); // Предотвращение отправки формы
+                    alert('Пожалуйста, выберите хотя бы одну услугу.');
+                }
+            });
+
+            // Инициализация итоговой суммы при загрузке страницы
+            updateTotal();
+        });
+    </script>
 
     <script type="text/javascript">
         // Эта функция вызывается из всплывающих меню для перехода на другую страницу.

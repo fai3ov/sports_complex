@@ -83,10 +83,9 @@ header('location:../index.php');
                   <thead>
                     <tr>
                       <th class="head0">ID клиента</th>
-                      <th class="head1">Выбранная услуга</th>
-                      <th class="head0 right">План</th>
-                      <th class="head1 right">Адрес</th>
-                      <th class="head0 right">Плата</th>
+                      <th class="head1">Выбранные услуги</th>
+                      <th class="head0 right">Текущий план</th>
+                      <th class="head0 right">Стоимость</th>
                       <th class="head0 right">Подсчёт посещяемости</th>
                     </tr>
                   </thead>
@@ -94,18 +93,17 @@ header('location:../index.php');
                     <tr>
                       <td><div class="text-center">ID-<?php echo $row['user_id']; ?></div></td>
                       <td><div class="text-center"><?php echo $row['services']; ?></div></td>
-                      <td><div class="text-center"><?php if($row['plan'] == 0) { echo 'NONE';} else {echo $row['plan'].' мес.';} ?></div></td>
-                      <td><div class="text-center"><?php echo $row['address']; ?></div></td>
+                      <td><div class="text-center"><?php if($row['plan'] == 0) { echo 'Не выбран';} else {echo $row['plan'].' мес.';} ?></div></td>
                       <td><div class="text-center"><?php echo $row['amount'].' руб.' ?></div></td>
-                      <td><div class="text-center"><?php echo $row['attendance_count']; ?> раз</div></td>
+                      <td><div class="text-center"><?php if($row['attendance_count'] == 1) { echo $row['attendance_count']. ' раз';} else if($row['attendance_count'] == '0') { echo'Нет посещений';} else { echo $row['attendance_count']. ' раз(-а)'; } ?></div></td>
                     </tr>
                   </tbody>
                 </table>
                 <table class="table table-bordered table-invoice-full">
                   <tbody>
                     <tr>
-                      <td class="msg-invoice" width="55%"> <div class="text-center"><h4>Последняя произведённая оплата : <?php echo $row['amount']?> руб.</h4>
-                        <em><a href="#" class="tip-bottom" title="Registration Date" style="font-size:15px;">Клиент с   <?php echo $row['dor']; ?> </a></em> </td>
+                      <td class="msg-invoice" width="55%"> <div class="text-center"><h4>Последняя произведённая оплата: <?php echo $row['amount']?> руб. (<?php echo $row['paid_date']?>)</h4>
+                        <em><a href="#" class="tip-bottom" title="Registration Date" style="font-size:15px;">Клиент зарегистирован   <?php echo $row['dor']; ?> </a></em> </td>
                         </div>
                     </tr>
                   </tbody>
@@ -116,7 +114,7 @@ header('location:../index.php');
 
             <div class="row-fluid">
                 <div class="pull-left">
-                <h4>Клиент <?php echo $row['fullname']; ?><br/> <br/> Статус : <?php echo $row['status']; ?><br/></h4><p>Спасибо, что выбрали нас!<br/>С уважением, команда спорткомплекса.</p>
+                <h4>Клиент <?php echo $row['fullname']; ?><br/> <br/> Статус : <?php if($row['status'] == 'Active') { echo 'Активен';} else if($row['status'] == 'Pending') { echo 'Ожидает оплаты';} ?><br/></h4><p>Спасибо, что выбрали нас!<br/>С уважением, команда спорткомплекса.</p>
                 </div>
                 <div class="pull-right">
                   <h4><span>Утверждено :</h4>

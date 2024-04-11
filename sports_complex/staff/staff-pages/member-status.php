@@ -3,7 +3,7 @@ session_start();
 
 // Функция isset используется для проверки, залогинен ли уже пользователь и сохранены ли его данные в сессии.
 if(!isset($_SESSION['user_id'])){
-header('location:../index.php');	
+header('location:../index.php');
 }
 ?>
 
@@ -28,7 +28,7 @@ header('location:../index.php');
 <div id="header">
   <h1><a href="dashboard.html">Sports Complex Staff</a></h1>
 </div>
-<!--close-Header-part--> 
+<!--close-Header-part-->
 
 
 <!--top-Header-menu-->
@@ -88,7 +88,7 @@ header('location:../index.php');
                             <td><div class='text-center'><?php echo $row['contact'];?></div></td>
                             <td><div class='text-center'><?php echo $row['services'];?></div></td>
                             <td><div class='text-center'><?php echo $row['plan'];?> мес.</div></td>
-                            <td><div class='text-center'><?php if( $row['status'] == 'Active' ){ echo '<i class="icon icon-circle" style="color:green;"></i> Активен';} else if ($row['status'] == 'Expired') { echo '<i class="fas fa-circle" style="color:red;"></i> Истёк';} else { echo '<i class="fas fa-circle" style="color:orange;"></i> Ожидает регистрации';}?></div></td>
+                            <td><div class='text-center'><?php if( $row['status'] == 'Active' ){ echo '<i class="icon icon-circle" style="color:green;"></i> Активен';} else if ($row['status'] == 'Pending') { echo '<i class="icon icon-circle" style="color:orange;"></i> Ожидает оплаты';}?></div></td>
 
                             </tbody>
                             <?php
@@ -116,26 +116,26 @@ header('location:../index.php');
 </style>
 <!--end-Footer-part-->
 
-<script src="../js/excanvas.min.js"></script> 
-<script src="../js/jquery.min.js"></script> 
-<script src="../js/jquery.ui.custom.js"></script> 
-<script src="../js/bootstrap.min.js"></script> 
-<script src="../js/jquery.flot.min.js"></script> 
-<script src="../js/jquery.flot.resize.min.js"></script> 
-<script src="../js/jquery.peity.min.js"></script> 
-<script src="../js/fullcalendar.min.js"></script> 
-<script src="../js/matrix.js"></script> 
-<script src="../js/matrix.dashboard.js"></script> 
-<script src="../js/jquery.gritter.min.js"></script> 
-<script src="../js/matrix.interface.js"></script> 
-<script src="../js/matrix.chat.js"></script> 
-<script src="../js/jquery.validate.js"></script> 
-<script src="../js/matrix.form_validation.js"></script> 
-<script src="../js/jquery.wizard.js"></script> 
-<script src="../js/jquery.uniform.js"></script> 
-<script src="../js/select2.min.js"></script> 
-<script src="../js/matrix.popover.js"></script> 
-<script src="../js/jquery.dataTables.min.js"></script> 
+<script src="../js/excanvas.min.js"></script>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/jquery.ui.custom.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/jquery.flot.min.js"></script>
+<script src="../js/jquery.flot.resize.min.js"></script>
+<script src="../js/jquery.peity.min.js"></script>
+<script src="../js/fullcalendar.min.js"></script>
+<script src="../js/matrix.js"></script>
+<script src="../js/matrix.dashboard.js"></script>
+<script src="../js/jquery.gritter.min.js"></script>
+<script src="../js/matrix.interface.js"></script>
+<script src="../js/matrix.chat.js"></script>
+<script src="../js/jquery.validate.js"></script>
+<script src="../js/matrix.form_validation.js"></script>
+<script src="../js/jquery.wizard.js"></script>
+<script src="../js/jquery.uniform.js"></script>
+<script src="../js/select2.min.js"></script>
+<script src="../js/matrix.popover.js"></script>
+<script src="../js/jquery.dataTables.min.js"></script>
 <script src="../js/matrix.tables.js"></script>
 
 <script type="text/javascript">

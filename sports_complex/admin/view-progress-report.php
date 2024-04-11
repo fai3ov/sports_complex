@@ -86,8 +86,8 @@ header('location:../index.php');
                       <th class="head0">ID клиента</th>
                       <th class="head1 right">Начальный вес</th>
                       <th class="head0 right">Текущий вес</th>
-                      <th class="head1">Выбранная услуга</th>
-                      <th class="head0 right">План</th>
+                      <th class="head1">Выбранные услуги</th>
+                      <th class="head0 right">Текущий план</th>
                     </tr>
                   </thead>
                   <tbody>

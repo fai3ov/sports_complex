@@ -2,37 +2,37 @@
 session_start();
 
 // Функция isset используется для проверки, залогинен ли уже пользователь и сохранены ли его данные в сессии.
-if(!isset($_SESSION['user_id'])){
-header('location:../index.php');	
+if (!isset($_SESSION['user_id'])) {
+    header('location:../index.php');
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Sports Complex Staff</title>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="../css/bootstrap.min.css" />
-<link rel="stylesheet" href="../css/bootstrap-responsive.min.css" />
-<link rel="stylesheet" href="../css/fullcalendar.css" />
-<link rel="stylesheet" href="../css/matrix-style.css" />
-<link rel="stylesheet" href="../css/matrix-media.css" />
-<link href="../font-awesome/css/font-awesome.css" rel="stylesheet" />
-<link rel="stylesheet" href="../css/jquery.gritter.css" />
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+    <title>Sports Complex Staff</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="../css/fullcalendar.css"/>
+    <link rel="stylesheet" href="../css/matrix-style.css"/>
+    <link rel="stylesheet" href="../css/matrix-media.css"/>
+    <link href="../font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../css/jquery.gritter.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 </head>
 <body>
 
 <!--Header-part-->
 <div id="header">
-  <h1><a href="dashboard.php">Sports Complex Staff</a></h1>
+    <h1><a href="dashboard.php">Sports Complex Staff</a></h1>
 </div>
-<!--close-Header-part--> 
+<!--close-Header-part-->
 
 
 <!--top-Header-menu-->
-<?php include '../includes/header.php'?>
+<?php include '../includes/header.php' ?>
 <!--close-top-Header-menu-->
 <!--start-top-serch-->
 <!-- <div id="search">
@@ -42,59 +42,60 @@ header('location:../index.php');
 <!--close-top-serch-->
 
 <!--sidebar-menu-->
-<?php $page='payment'; include '../includes/sidebar.php'?>
+<?php $page = 'payment';
+include '../includes/sidebar.php' ?>
 <!--sidebar-menu-->
 
 <div id="content">
     <div id="content-header">
-        <div id="breadcrumb"> <a href="index.php" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Главная страница</a> <a href="payment.php" class="tip-bottom">Платежи от клиентов</a> <a class="current">Счёт на оплату</a> </div>
+        <div id="breadcrumb"><a href="index.php" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Главная
+                страница</a> <a href="payment.php" class="tip-bottom">Платежи от клиентов</a> <a class="current">Счёт на
+                оплату</a></div>
         <h1>Платёж</h1>
     </div>
+
     <form role="form" action="index.php" method="POST">
+
         <?php
-
-        if(isset($_POST['amount'])){
-
+        if (isset($_POST['status'])) {
+            date_default_timezone_set('Europe/Moscow');
             $fullname = $_POST['fullname'];
-            $paid_date = $_POST['paid_date'];
-            // $p_year = date('Y');
-            $services = $_POST["services"];
+
+            $services = isset($_POST["services"]) && is_array($_POST["services"]) ? implode(', ', $_POST["services"]) : '';
             $amount = $_POST["amount"];
             $plan = $_POST["plan"];
             $status = $_POST["status"];
-            $id=$_POST['id'];
 
+            $paid_date = date("Y-m-d"); // Текущая дата
+            $planMonths = $plan; // Значение plan, полученное из БД (1, 3, 6, 12)
+            // Вычисление end_of_plan путем добавления $planMonths месяцев к paid_date
+            $end_of_plan = date("Y-m-d", strtotime("+$planMonths months", strtotime($paid_date)));
 
-            $amountpayable = $amount * $plan;
+            $id = $_POST['id'];
 
             include 'dbcon.php';
-            date_default_timezone_set('Europe/Moscow');
-            $current_date = date('d.m.Y H:i', time());
-            $exp_date_time = explode(' ', $current_date);
-            $curr_date =  $exp_date_time['0'];
-            $curr_time =  $exp_date_time['1'];
 
-            $qry = "UPDATE members SET amount='$amountpayable', plan='$plan', status='$status', paid_date='$curr_date', reminder='0' WHERE user_id='$id'";
-            $result = mysqli_query($conn,$qry);
+            $qry = "UPDATE members SET paid_date='$paid_date', end_of_plan = '$end_of_plan', status='$status' WHERE user_id='$id'";
 
-            if(!$result){ ?>
+            $result = mysqli_query($conn, $qry);
 
+            if (!$result) { ?>
                 <h3 class="text-center">Что-то пошло не так!</h3>
-
             <?php } else { ?>
-
-                <?php if ($status == 'Active') {?>
-
+                <?php if ($status == 'Active') { ?>
                     <table class="body-wrap">
-                        <tbody><tr>
+                        <tbody>
+                        <tr>
                             <td></td>
                             <td class="container" width="600">
                                 <div class="content">
                                     <table class="main" width="100%" cellpadding="0" cellspacing="0">
-                                        <tbody><tr>
+                                        <tbody>
+                                        <tr>
                                             <td class="content-wrap aligncenter print-container">
                                                 <table width="100%" cellpadding="0" cellspacing="0">
-                                                    <tbody><tr>
+                                                    <tbody>
+                                                    <tr>
                                                         <td class="content-block">
                                                             <h3 class="text-center">Квитанция об оплате</h3>
                                                         </td>
@@ -104,46 +105,62 @@ header('location:../index.php');
                                                             <table class="invoice">
                                                                 <tbody>
                                                                 <tr>
-                                                                    <td><div style="float:left">Счёт № <?php echo(rand(100000,10000000));?> <br> Спортивный комплекс <br>г. Казань, Россия</div><div style="float:right"> Последняя оплата : <?php echo $paid_date?></div></td>
+                                                                    <td>
+                                                                        <div style="float:left">Счёт
+                                                                            № <?php echo(rand(100000, 10000000)); ?>
+                                                                            <br> Спортивный комплекс <br>г. Казань,
+                                                                            Россия
+                                                                        </div>
+                                                                        <div style="float:right"> Последняя оплата
+                                                                            : <?php echo $paid_date ?></div>
+                                                                    </td>
                                                                 </tr>
 
                                                                 <tr>
-                                                                    <td class="text-center" style="font-size:14px;"><b>Клиент : <?php echo $fullname; ?></b>  <br>
-                                                                        Оплачено <?php echo date("d.m.Y H:i");?>
+                                                                    <td class="text-center" style="font-size:14px;"><b>Клиент
+                                                                            : <?php echo $fullname; ?></b> <br>
+                                                                        Оплачено <?php echo date("d.m.Y H:i"); ?>
                                                                     </td>
 
                                                                 </tr>
 
                                                                 <tr>
                                                                     <td>
-                                                                        <table class="invoice-items" cellpadding="0" cellspacing="0">
+                                                                        <table class="invoice-items" cellpadding="0"
+                                                                               cellspacing="0">
                                                                             <tbody>
 
                                                                             <tr>
-                                                                                <td><b>Выбранная услуга</b></td>
+                                                                                <td><b>Выбранные услуги</b></td>
                                                                                 <td class="alignright"><b>Действительно</b></td>
                                                                             </tr>
 
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <?php
+                                                                                    // Разбиваем строку на массив по запятым
+                                                                                    $services_array = explode(', ', $_POST["services"]);
+
+                                                                                    // Выводим каждый элемент массива в отдельной ячейке таблицы
+                                                                                    foreach ($services_array as $service) {
+                                                                                        echo $service . ' ';
+                                                                                    }
+                                                                                    ?>
+                                                                                </td>
+                                                                                <td class="alignright"><?php echo $plan ?> мес.</td>
+                                                                            </tr>
 
                                                                             <tr>
-                                                                                <td><?php echo $services; ?></td>
-                                                                                <td class="alignright"><?php echo $plan?> мес.</td>
+                                                                                <td><?php echo 'Стоимость'; ?></td>
+                                                                                <td class="alignright"><?php echo $amount . ' руб.' ?></td>
                                                                             </tr>
 
-                                                                            <tr>
-                                                                                <td><?php echo 'Стоимость в месяц'; ?></td>
-                                                                                <td class="alignright"><?php echo $amount.' руб.'?></td>
-                                                                            </tr>
-
-
-                                                                            <tr class="total">
-                                                                                <td class="alignright" width="80%">Общая сумма</td>
-                                                                                <td class="alignright"><?php echo $amountpayable.' руб.' ?></td>
-                                                                            </tr>
-                                                                            </tbody></table>
+                                                                            </tbody>
+                                                                        </table>
                                                                     </td>
                                                                 </tr>
-                                                                </tbody></table>
+                                                                </tbody>
+                                                            </table>
                                                         </td>
                                                     </tr>
 
@@ -152,37 +169,42 @@ header('location:../index.php');
                                                             Спасибо за оплату!
                                                         </td>
                                                     </tr>
-                                                    </tbody></table>
+                                                    </tbody>
+                                                </table>
                                             </td>
                                         </tr>
-                                        </tbody></table>
+                                        </tbody>
+                                    </table>
                                     <div class="footer">
                                         <table width="100%">
-                                            <tbody><tr>
-                                                <td class="aligncenter content-block"><button class="btn btn-danger" onclick="window.print()"><i class="fas fa-print"></i> Напечатать</button></td>
+                                            <tbody>
+                                            <tr>
+                                                <td class="align center content-block">
+                                                    <button class="btn btn-danger" onclick="window.print()"><i
+                                                                class="fas fa-print"></i> Напечатать
+                                                    </button>
+                                                </td>
                                             </tr>
-                                            </tbody></table>
-                                    </div></div>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </td>
                             <td></td>
                         </tr>
                         </tbody>
                     </table>
-
-                <?php } else {?>
-
+                <?php } else { ?>
                     <div class='error_ex'>
                         <h1>409</h1>
                         <h3>Похоже, вы деактивировали аккаунт клиента!</h3>
                         <p>Аккаунт выбранного участника больше не будет АКТИВНЫМ до следующего платежа.</p>
-                        <a class='btn btn-danger btn-big'  href='payment.php'>Go Back</a> </div>
-
+                        <a class='btn btn-danger btn-big' href='payment.php'>Go Back</a></div>
                 <?php } ?>
-
-            <?php   }
-
+            <?php }
         } else { ?>
-            <h3>ВЫ НЕ ИМЕЕТЕ ПРАВА НА ПЕРЕАДРЕСАЦИЮ ЭТОЙ СТРАНИЦЫ. ВЕРНИТЕСЬ НА <a href='index.php'> ПАНЕЛЬ УПРАВЛЕНИЯ </a></h3>";
+            <h3>ВЫ НЕ ИМЕЕТЕ ПРАВА НА ПЕРЕАДРЕСАЦИЮ ЭТОЙ СТРАНИЦЫ. ВЕРНИТЕСЬ НА <a href='index.php'> ПАНЕЛЬ
+                    УПРАВЛЕНИЯ </a></h3>";
         <?php }
         ?>
     </form>
@@ -193,7 +215,7 @@ header('location:../index.php');
 
 <!--Footer-part-->
 <div class="row-fluid">
-    <div id="footer" class="span12"> <?php echo date("Y");?> &copy; Developed By Ilfat Faizov</a> </div>
+    <div id="footer" class="span12"> <?php echo date("Y"); ?> &copy; Developed By Ilfat Faizov</a> </div>
 </div>
 
 <style>
@@ -267,15 +289,19 @@ header('location:../index.php');
         text-align: left;
         width: 80%;
     }
+
     .invoice td {
         padding: 7px 0;
     }
+
     .invoice .invoice-items {
         width: 100%;
     }
+
     .invoice .invoice-items td {
         border-top: #eee 1px solid;
     }
+
     .invoice .invoice-items .total td {
         border-top: 2px solid #333;
         border-bottom: 2px solid #333;
@@ -326,26 +352,26 @@ header('location:../index.php');
 
 <!--end-Footer-part-->
 
-<script src="../js/excanvas.min.js"></script> 
-<script src="../js/jquery.min.js"></script> 
-<script src="../js/jquery.ui.custom.js"></script> 
-<script src="../js/bootstrap.min.js"></script> 
-<script src="../js/jquery.flot.min.js"></script> 
-<script src="../js/jquery.flot.resize.min.js"></script> 
-<script src="../js/jquery.peity.min.js"></script> 
-<script src="../js/fullcalendar.min.js"></script> 
-<script src="../js/matrix.js"></script> 
-<script src="../js/matrix.dashboard.js"></script> 
-<script src="../js/jquery.gritter.min.js"></script> 
-<script src="../js/matrix.interface.js"></script> 
-<script src="../js/matrix.chat.js"></script> 
-<script src="../js/jquery.validate.js"></script> 
-<script src="../js/matrix.form_validation.js"></script> 
-<script src="../js/jquery.wizard.js"></script> 
-<script src="../js/jquery.uniform.js"></script> 
-<script src="../js/select2.min.js"></script> 
-<script src="../js/matrix.popover.js"></script> 
-<script src="../js/jquery.dataTables.min.js"></script> 
+<script src="../js/excanvas.min.js"></script>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/jquery.ui.custom.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/jquery.flot.min.js"></script>
+<script src="../js/jquery.flot.resize.min.js"></script>
+<script src="../js/jquery.peity.min.js"></script>
+<script src="../js/fullcalendar.min.js"></script>
+<script src="../js/matrix.js"></script>
+<script src="../js/matrix.dashboard.js"></script>
+<script src="../js/jquery.gritter.min.js"></script>
+<script src="../js/matrix.interface.js"></script>
+<script src="../js/matrix.chat.js"></script>
+<script src="../js/jquery.validate.js"></script>
+<script src="../js/matrix.form_validation.js"></script>
+<script src="../js/jquery.wizard.js"></script>
+<script src="../js/jquery.uniform.js"></script>
+<script src="../js/select2.min.js"></script>
+<script src="../js/matrix.popover.js"></script>
+<script src="../js/jquery.dataTables.min.js"></script>
 <script src="../js/matrix.tables.js"></script>
 
 <script type="text/javascript">

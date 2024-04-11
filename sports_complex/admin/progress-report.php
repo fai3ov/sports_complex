@@ -69,7 +69,7 @@ header('location:../index.php');
                 <tr>
                   <th>#</th>
                   <th>Полное имя</th>
-                  <th>Выбранная услуга</th>
+                  <th>Выбранные услуги</th>
                   <th>Действие</th>
                 </tr>
               </thead>";

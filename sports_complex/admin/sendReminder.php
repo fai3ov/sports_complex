@@ -7,11 +7,13 @@ header('location:../index.php');
 
 if(isset($_GET['id'])){
 $id=$_GET['id'];
+$last_reminder_date	= date("Y-m-d");   // Текущая дата
 
 include 'dbcon.php';
 
-$qry="UPDATE members SET reminder = '1' where user_id=$id";
-$result=mysqli_query($con,$qry);
+// Обновляем поля reminder и last_reminder_date
+$qry = "UPDATE members SET reminder = '1', last_reminder_date = '$last_reminder_date' WHERE user_id = $id";
+$result = mysqli_query($con, $qry);
 
 if($result){
     echo '<script>alert("Уведомление отправлено выбранному клиенту!")</script>';

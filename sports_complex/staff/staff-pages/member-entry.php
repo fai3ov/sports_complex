@@ -2,36 +2,36 @@
 session_start();
 
 // Функция isset используется для проверки, залогинен ли уже пользователь и сохранены ли его данные в сессии.
-if(!isset($_SESSION['user_id'])){
-header('location:../index.php');	
+if (!isset($_SESSION['user_id'])) {
+    header('location:../index.php');
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Sports Complex Staff</title>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="../css/bootstrap.min.css" />
-<link rel="stylesheet" href="../css/bootstrap-responsive.min.css" />
-<link rel="stylesheet" href="../css/fullcalendar.css" />
-<link rel="stylesheet" href="../css/matrix-style.css" />
-<link rel="stylesheet" href="../css/matrix-media.css" />
-<link href="../font-awesome/css/font-awesome.css" rel="stylesheet" />
-<link rel="stylesheet" href="../css/jquery.gritter.css" />
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+    <title>Sports Complex Staff</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="../css/fullcalendar.css"/>
+    <link rel="stylesheet" href="../css/matrix-style.css"/>
+    <link rel="stylesheet" href="../css/matrix-media.css"/>
+    <link href="../font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../css/jquery.gritter.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 </head>
 <body>
 
 <!--Header-part-->
 <div id="header">
-  <h1><a href="dashboard.html">Sports Complex Staff</a></h1>
+    <h1><a href="dashboard.html">Sports Complex Staff</a></h1>
 </div>
-<!--close-Header-part--> 
+<!--close-Header-part-->
 
 <!--top-Header-menu-->
-<?php include '../includes/header.php'?>
+<?php include '../includes/header.php' ?>
 <!--close-top-Header-menu-->
 <!--start-top-serch-->
 <!-- <div id="search">
@@ -40,12 +40,15 @@ header('location:../index.php');
 </div> -->
 <!--close-top-serch-->
 <!--sidebar-menu-->
-<?php $page="member"; include '../includes/sidebar.php'?>
+<?php $page = "member";
+include '../includes/sidebar.php' ?>
 <!--sidebar-menu-->
 
 <div id="content">
     <div id="content-header">
-        <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Главная страница</a> <a href="members.php" class="tip-bottom">Клиенты спорткомплекса</a> <a href="member-entry.php" class="current">Добавление клиента</a> </div>
+        <div id="breadcrumb"><a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>
+                Главная страница</a> <a href="members.php" class="tip-bottom">Клиенты спорткомплекса</a> <a
+                    href="member-entry.php" class="current">Добавление клиента</a></div>
         <h1>Форма регистрации клиента</h1>
     </div>
     <div class="container-fluid">
@@ -53,7 +56,7 @@ header('location:../index.php');
         <div class="row-fluid">
             <div class="span6">
                 <div class="widget-box">
-                    <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                    <div class="widget-title"><span class="icon"> <i class="icon-align-justify"></i> </span>
                         <h5>Личная информация</h5>
                     </div>
                     <div class="widget-content nopadding">
@@ -61,19 +64,22 @@ header('location:../index.php');
                             <div class="control-group">
                                 <label class="control-label">Полное имя :</label>
                                 <div class="controls">
-                                    <input type="text" class="span11" name="fullname" placeholder="Полное имя" required />
+                                    <input type="text" class="span11" name="fullname" placeholder="Полное имя"
+                                           required/>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">Имя пользователя :</label>
                                 <div class="controls">
-                                    <input type="text" class="span11" name="username" placeholder="Имя пользователя" required />
+                                    <input type="text" class="span11" name="username" placeholder="Имя пользователя"
+                                           required/>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">Пароль :</label>
                                 <div class="controls">
-                                    <input type="password"  class="span11" name="password" placeholder="**********" required />
+                                    <input type="password" class="span11" name="password" placeholder="**********"
+                                           required/>
                                     <span class="help-block">Примечание: данная информация будет использована для создания аккаунта клиента.</span>
                                 </div>
                             </div>
@@ -87,9 +93,9 @@ header('location:../index.php');
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">Дата регистрации :</label>
+                                <label class="control-label">Дата рождения :</label>
                                 <div class="controls">
-                                    <input type="date" name="dor" class="span11" />
+                                    <input type="date" name="dob" class="span11"/>
                                 </div>
                             </div>
                     </div>
@@ -103,7 +109,7 @@ header('location:../index.php');
                                 <div class="control-group">
                                     <label for="normal" class="control-label">План : </label>
                                     <div class="controls">
-                                        <select name="plan" required="required" id="select">
+                                        <select name="plan" required="required" id="planSelect">
                                             <option value="1" selected="selected">1 месяц</option>
                                             <option value="3">3 месяца</option>
                                             <option value="6">6 месяцев</option>
@@ -121,7 +127,7 @@ header('location:../index.php');
 
             <div class="span6">
                 <div class="widget-box">
-                    <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                    <div class="widget-title"><span class="icon"> <i class="icon-align-justify"></i> </span>
                         <h5>Контактная информация</h5>
                     </div>
                     <div class="widget-content nopadding">
@@ -129,19 +135,20 @@ header('location:../index.php');
                             <div class="control-group">
                                 <label for="normal" class="control-label">Телефон :</label>
                                 <div class="controls">
-                                    <input type="text" id="mask-phone" name="contact" minlength="10" maxlength="10" class="span8 mask text" required>
+                                    <input type="text" id="mask-phone" name="contact" minlength="10" maxlength="10"
+                                           class="span8 mask text" required>
                                     <span class="help-block blue span8">(900) 100-10-10</span>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">Адрес :</label>
                                 <div class="controls">
-                                    <input type="text" class="span11" name="address" placeholder="Адрес" required />
+                                    <input type="text" class="span11" name="address" placeholder="Адрес" required/>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                        <div class="widget-title"><span class="icon"> <i class="icon-align-justify"></i> </span>
                             <h5>Подробности об услугах</h5>
                         </div>
                         <div class="widget-content nopadding">
@@ -151,15 +158,9 @@ header('location:../index.php');
                                 <div class="control-group">
                                     <label class="control-label">Услуги</label>
                                     <div class="controls">
-                                        <label>
-                                            <input type="radio" value="Фитнес" name="services" />
-                                            Фитнес <small>- 10 000 руб./мес.</small></label>
-                                        <label>
-                                            <input type="radio" value="Сауна" name="services" />
-                                            Сауна <small>- 5 000 руб./мес.</small></label>
-                                        <label>
-                                            <input type="radio" value="Кардио" name="services" />
-                                            Кардио <small>- 8 000 руб./мес.</small></label>
+                                        <label><input type="checkbox" value="Фитнес" name="services[]" /> Фитнес <small>- 10 000 руб./мес.</small></label>
+                                        <label><input type="checkbox" value="Сауна" name="services[]" /> Сауна <small>- 5 000 руб./мес.</small></label>
+                                        <label><input type="checkbox" value="Кардио" name="services[]" /> Кардио <small>- 8 000 руб./мес.</small></label>
                                     </div>
                                 </div>
 
@@ -168,13 +169,14 @@ header('location:../index.php');
                                     <div class="controls">
                                         <div class="input-append">
                                             <span class="add-on">₽</span>
-                                            <input type="number" placeholder="50" name="amount" class="span11">
+                                            <input type="number" placeholder="50" name="amount" class="span11" readonly>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="form-actions text-center">
-                                    <button type="submit" class="btn btn-success">Подтвердить информацию о клиенте</button>
+                                    <button type="submit" class="btn btn-success">Подтвердить информацию о клиенте
+                                    </button>
                                 </div>
 
                                 </form>
@@ -191,7 +193,7 @@ header('location:../index.php');
 
 <!--Footer-part-->
 <div class="row-fluid">
-    <div id="footer" class="span12"> <?php echo date("Y");?> &copy; Developed By Ilfat Faizov</a> </div>
+    <div id="footer" class="span12"> <?php echo date("Y"); ?> &copy; Developed By Ilfat Faizov</a> </div>
 </div>
 
 <style>
@@ -201,38 +203,94 @@ header('location:../index.php');
 </style>
 <!--end-Footer-part-->
 
-<script src="../js/excanvas.min.js"></script> 
-<script src="../js/jquery.min.js"></script> 
-<script src="../js/jquery.ui.custom.js"></script> 
-<script src="../js/bootstrap.min.js"></script> 
-<script src="../js/jquery.flot.min.js"></script> 
-<script src="../js/jquery.flot.resize.min.js"></script> 
-<script src="../js/jquery.peity.min.js"></script> 
-<script src="../js/fullcalendar.min.js"></script> 
-<script src="../js/matrix.js"></script> 
-<script src="../js/matrix.dashboard.js"></script> 
-<script src="../js/jquery.gritter.min.js"></script> 
-<script src="../js/matrix.interface.js"></script> 
-<script src="../js/matrix.chat.js"></script> 
-<script src="../js/jquery.validate.js"></script> 
-<script src="../js/matrix.form_validation.js"></script> 
-<script src="../js/jquery.wizard.js"></script> 
-<script src="../js/jquery.uniform.js"></script> 
-<script src="../js/select2.min.js"></script> 
-<script src="../js/matrix.popover.js"></script> 
-<script src="../js/jquery.dataTables.min.js"></script> 
+<script src="../js/excanvas.min.js"></script>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/jquery.ui.custom.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/jquery.flot.min.js"></script>
+<script src="../js/jquery.flot.resize.min.js"></script>
+<script src="../js/jquery.peity.min.js"></script>
+<script src="../js/fullcalendar.min.js"></script>
+<script src="../js/matrix.js"></script>
+<script src="../js/matrix.dashboard.js"></script>
+<script src="../js/jquery.gritter.min.js"></script>
+<script src="../js/matrix.interface.js"></script>
+<script src="../js/matrix.chat.js"></script>
+<script src="../js/jquery.validate.js"></script>
+<script src="../js/matrix.form_validation.js"></script>
+<script src="../js/jquery.wizard.js"></script>
+<script src="../js/jquery.uniform.js"></script>
+<script src="../js/select2.min.js"></script>
+<script src="../js/matrix.popover.js"></script>
+<script src="../js/jquery.dataTables.min.js"></script>
 <script src="../js/matrix.tables.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function updateTotal() {
+            // Обновите идентификатор для вашего элемента выбора плана здесь
+            var selectedPlan = document.getElementById('planSelect').value;
+
+            var planMultiplier = {
+                '1': 1,
+                '3': 3,
+                '6': 6,
+                '12': 12
+            };
+
+            var servicePrices = {
+                'Фитнес': 10000,
+                'Сауна': 5000,
+                'Кардио': 8000
+            };
+
+            var serviceCheckboxes = document.querySelectorAll('input[name="services[]"]:checked');
+            var total = 0;
+
+            serviceCheckboxes.forEach(function(checkbox) {
+                total += servicePrices[checkbox.value];
+            });
+
+            // Применяем множитель плана к итоговой сумме
+            total *= planMultiplier[selectedPlan];
+
+            document.querySelector('input[name="amount"]').value = total;
+        }
+
+        // Обновите идентификатор здесь также
+        document.getElementById('planSelect').addEventListener('change', updateTotal);
+
+        document.querySelectorAll('input[name="services[]"]').forEach(function(checkbox) {
+            checkbox.addEventListener('change', updateTotal);
+        });
+
+        document.getElementById('memberForm').addEventListener('submit', function(event) {
+            // Поиск всех чекбоксов с именем 'services[]'
+            var services = document.querySelectorAll('input[name="services[]"]');
+            var serviceSelected = Array.from(services).some(checkbox => checkbox.checked);
+
+            // Если услуга не выбрана, предотвратить отправку формы и показать сообщение
+            if(!serviceSelected) {
+                event.preventDefault(); // Предотвращение отправки формы
+                alert('Пожалуйста, выберите хотя бы одну услугу.');
+            }
+        });
+
+        // Инициализация итоговой суммы при загрузке страницы
+        updateTotal();
+    });
+</script>
 
 <script type="text/javascript">
     // Эта функция вызывается из всплывающих меню для перехода на другую страницу.
     // Игнорировать, если возвращаемое значение является пустой строкой.
-    function goPage (newURL) {
+    function goPage(newURL) {
 
         // Если URL пуст, пропустить разделители меню и сбросить выбор в меню на значение по умолчанию:
         if (newURL != "") {
 
             // Если URL равен "-", это текущая страница - сбросить меню:
-            if (newURL == "-" ) {
+            if (newURL == "-") {
                 resetMenu();
             }
             // В противном случае, перейти на указанный URL:

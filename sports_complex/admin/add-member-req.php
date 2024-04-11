@@ -49,32 +49,45 @@ include 'includes/sidebar.php' ?>
         <h1>Форма регистрации клиента</h1>
     </div>
     <form role="form" action="index.php" method="POST">
-        <?php
 
+        <?php
         if (isset($_POST['fullname'])) {
+            // Собираем данные из формы
             $fullname = $_POST["fullname"];
             $username = $_POST["username"];
-            $password = $_POST["password"];
-            $dor = $_POST["dor"];
+            $password = md5($_POST["password"]);
             $gender = $_POST["gender"];
-            $services = $_POST["services"];
+            $dob = $_POST["dob"];
+            $services = isset($_POST["services"]) ? implode(', ', $_POST["services"]) : ''; // Преобразуем выбранные услуги в строку
             $amount = $_POST["amount"];
-            $p_year = date('Y');
-            $paid_date = date("Y-m-d");
             $plan = $_POST["plan"];
             $address = $_POST["address"];
             $contact = $_POST["contact"];
 
-            $password = md5($password);
+            // По умолчанию значения для полей, которые не заполняются формой
+            $dor = date("Y-m-d");   // Текущая дата для dor
+            $paid_date = NULL;      // NULL для paid_date
+            $end_of_plan = NULL;    // NULL для end_of_plan
+            $status = 'Pending';    // Значение по умолчанию для статуса
+            $attendance_count = 0;  // Начальное значение счётчика посещений
+            $ini_weight = 0;        // Начальный вес
+            $curr_weight = 0;       // Текущий вес
+            $ini_bodytype = '';     // Начальный тип телосложения
+            $curr_bodytype = '';    // Текущий тип телосложения
+            $progress_date = NULL;  // NULL для progress_date
+            $reminder = 0;          // Напоминание
+            $last_reminder_date	= NULL;     // NULL для last_reminder_date
 
-            $totalamount = intval($amount) * intval($plan);
+            include 'dbcon.php'; // Подключение к базе данных
 
-            include 'dbcon.php';
+            // Подготовка SQL запроса
+            $qry = $conn->prepare("INSERT INTO members (fullname, username, password, gender, dob, dor, services, amount, paid_date, end_of_plan, plan, address, contact, status, attendance_count, ini_weight, curr_weight, ini_bodytype, curr_bodytype,progress_date, reminder, last_reminder_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-            $qry = "INSERT INTO members(fullname, username, password, gender, dor, services, amount, paid_date, p_year, plan, address, contact, status, attendance_count, ini_weight, curr_weight, ini_bodytype, curr_bodytype, progress_date, reminder) values ('$fullname', '$username', '$password', '$gender', '$dor', '$services', '$totalamount', '$paid_date', '$p_year', '$plan', '$address', '$contact', 'Pending', 0, 0, 0, '', '', NULL, 0)";
-            // $qry = "INSERT INTO members(fullname,username,password,dor,gender,services,amount,p_year,paid_date,plan,address,contact) values ('$fullname','$username','$password','$dor','$gender','$services','$totalamount','$p_year','$paid_date','$plan','$address','$contact')";
+            // Привязка параметров
+            $qry->bind_param("sssssssissssssiiisssis", $fullname, $username, $password, $gender, $dob, $dor, $services, $amount, $paid_date, $end_of_plan, $plan, $address, $contact, $status, $attendance_count, $ini_weight, $curr_weight, $ini_bodytype, $curr_bodytype, $progress_date, $reminder, $last_reminder_date);
 
-            $result = mysqli_query($conn, $qry);
+            // Выполнение запроса
+            $result = $qry->execute();
 
             if (!$result) {
                 echo "<div class='container-fluid'>";

@@ -2,18 +2,18 @@
 session_start();
 
 // Функция isset используется для проверки, залогинен ли уже пользователь и сохранены ли его данные в сессии.
-if(!isset($_SESSION['user_id'])){
-header('location:../index.php');	
+if (!isset($_SESSION['user_id'])) {
+    header('location:../index.php');
 }
 
 include('../dbcon.php');
 date_default_timezone_set('Europe/Moscow');
- //$current_date = date('Y-m-d h:i:s');
+//$current_date = date('Y-m-d h:i:s');
 $current_date = date('Y-m-d H:i', time());
-   $exp_date_time = explode(' ', $current_date);
-    $curr_date =  $exp_date_time['0'];
-    $curr_time =  $exp_date_time['1']. ' ' .$exp_date_time['2'];
- //extract($_POST);
+$exp_date_time = explode(' ', $current_date);
+$curr_date = $exp_date_time['0'];
+$curr_time = $exp_date_time['1'] . ' ' . $exp_date_time['2'];
+//extract($_POST);
 
 $user_id = $_GET['id'];
 
@@ -30,37 +30,37 @@ window.location="../attendance.php";
 </script>
 <?php
 }*/
- //else {
+//else {
 
-   $sql = "INSERT INTO attendance (user_id, curr_date,curr_time,present)
+$sql = "INSERT INTO attendance (user_id, curr_date,curr_time,present)
    VALUES ('$user_id','$curr_date','$curr_time',1)";
 
 
- if ($con->query($sql) === TRUE) {
-   $attend_count = 0;
-  $attend = "select * from members where user_id = '$user_id'";
-  $result_attend = $con->query($attend);
-  $row_attend = mysqli_fetch_array($result_attend);
-   $cnt = $row_attend['attendance_count'];
+if ($con->query($sql) === TRUE) {
+    $attend_count = 0;
+    $attend = "select * from members where user_id = '$user_id'";
+    $result_attend = $con->query($attend);
+    $row_attend = mysqli_fetch_array($result_attend);
+    $cnt = $row_attend['attendance_count'];
     $attend_count = $attend_count + 1;
-     $sql1 = "UPDATE members SET attendance_count = attendance_count + '$attend_count' where user_id='$user_id'";
-     $con->query($sql1) ;
+    $sql1 = "UPDATE members SET attendance_count = attendance_count + '$attend_count' where user_id='$user_id'";
+    $con->query($sql1);
 
-     // $_SESSION['success']='Record Successfully Added';
-      
-     ?>
-<script type="text/javascript">
-window.location="../attendance.php";
-</script>
-<?php
+    // $_SESSION['success']='Record Successfully Added';
+
+    ?>
+    <script type="text/javascript">
+        window.location = "../attendance.php";
+    </script>
+    <?php
 } else {
-   
-      $_SESSION['error']='Что-то пошло не так';
-?>
-<script type="text/javascript">
-window.location="../attendance.php";
-</script>
-<?php
+
+    $_SESSION['error'] = 'Что-то пошло не так';
+    ?>
+    <script type="text/javascript">
+        window.location = "../attendance.php";
+    </script>
+    <?php
 }
 
 //}

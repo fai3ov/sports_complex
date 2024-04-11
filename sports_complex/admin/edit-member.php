@@ -74,12 +74,12 @@ if(!isset($_SESSION['user_id'])){
                   <th>Полное имя</th>
                   <th>Имя пользователя</th>
                   <th>Пол</th>
+                  <th>Дата рождения</th>
                   <th>Телефон</th>
                   <th>Дата регистрации</th>
-                  <th>Адрес</th>
-                  <th>Сумма</th>
-                  <th>Выбранная услуга</th>
-                  <th>План</th>
+                  <th>Выбранные услуги</th>
+                  <th>Текущий план</th>
+                  <th>Стоимость</th>
                   <th>Действие</th>
                 </tr>
               </thead>";
@@ -92,12 +92,12 @@ if(!isset($_SESSION['user_id'])){
                 <td><div class='text-center'>".$row['fullname']."</div></td>
                 <td><div class='text-center'>@".$row['username']."</div></td>
                 <td><div class='text-center'>".$row['gender']."</div></td>
+                <td><div class='text-center'>".$row['dob']."</div></td>
                 <td><div class='text-center'>".$row['contact']."</div></td>
                 <td><div class='text-center'>".$row['dor']."</div></td>
-                <td><div class='text-center'>".$row['address']."</div></td>
-                <td><div class='text-center'>".$row['amount']." руб.</div></td>
                 <td><div class='text-center'>".$row['services']."</div></td>
                 <td><div class='text-center'>".$row['plan']." мес.</div></td>
+                <td><div class='text-center'>".$row['amount']." руб.</div></td>
                 <td><div class='text-center'><a href='edit-memberform.php?id=".$row['user_id']."'><i class='fas fa-edit'></i> Редактировать</a></div></td>
                 
               </tbody>";

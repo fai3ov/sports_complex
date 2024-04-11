@@ -56,6 +56,7 @@ $result5 = mysqli_query($con, $qry);
     </script>
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
     <script type="text/javascript">
         google.charts.load('current', {'packages': ['bar']});
         google.charts.setOnLoadCallback(drawStuff);
@@ -63,16 +64,25 @@ $result5 = mysqli_query($con, $qry);
         function drawStuff() {
             var data = new google.visualization.arrayToDataTable([
                 ['Услуги', 'Кол-во клиентов'],
-
                 <?php
-                $query = "SELECT services, count(*) as number FROM members GROUP BY services";
+                $query = "SELECT services FROM members";
                 $res = mysqli_query($con, $query);
+                $servicesCount = [];
+
                 while($data = mysqli_fetch_array($res)){
-                $services = $data['services'];
-                $number = $data['number'];
-                ?>
-                ['<?php echo $services;?>',<?php echo $number;?>],
-                <?php
+                    $services = $data['services'];
+                    $services_array = explode(', ', $services);
+
+                    foreach ($services_array as $service) {
+                        if(!isset($servicesCount[$service])) {
+                            $servicesCount[$service] = 0;
+                        }
+                        $servicesCount[$service]++;
+                    }
+                }
+
+                foreach ($servicesCount as $service => $count) {
+                    echo "['$service', $count],";
                 }
                 ?>
             ]);
@@ -83,7 +93,7 @@ $result5 = mysqli_query($con, $qry);
                 bars: 'vertical', // Требуется для Material Bar Charts
                 axes: {
                     x: {
-                        0: {side: 'top', label: 'Total'} // Верхняя ось X
+                        0: {side: 'top', label: 'Услуги'} // Верхняя ось X
                     }
                 },
                 bar: {groupWidth: "100%"}
@@ -92,8 +102,9 @@ $result5 = mysqli_query($con, $qry);
             var chart = new google.charts.Bar(document.getElementById('top_x_div'));
             chart.draw(data, options);
         };
-
     </script>
+
+
 
     <script type="text/javascript">
         google.charts.load('current', {'packages': ['bar']});
@@ -138,7 +149,7 @@ $result5 = mysqli_query($con, $qry);
                 bars: 'horizontal', // Требуется для Material Bar Charts
                 axes: {
                     x: {
-                        0: {side: 'top', label: 'Total'} // Верхняя ось X
+                        0: {side: 'top', label: 'Всего, руб.'} // Верхняя ось X
                     }
                 },
                 bar: {groupWidth: "100%"}

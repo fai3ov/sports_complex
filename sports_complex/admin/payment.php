@@ -82,9 +82,9 @@ header('location:../index.php');
                   <th>#</th>
                   <th>Клиент</th>
                   <th>Последняя дата оплаты</th>
-                  <th>Сумма</th>
-                  <th>Выбранная услуга</th>
-                  <th>План</th>
+                  <th>Выбранные услуги</th>
+                  <th>Текущий план</th>
+                  <th>Стоимость</th>
                   <th>Действие</th>
                   <th>Напомнить</th>
                 </tr>
@@ -96,11 +96,10 @@ header('location:../index.php');
                
                 <td><div class='text-center'><?php echo $cnt;?></div></td>
                 <td><div class='text-center'><?php echo $row['fullname']?></div></td>
-                <td><div class='text-center'><?php echo($row['paid_date'] == 0 ? "New Member" : $row['paid_date'])?></div></td>
-                
-                <td><div class='text-center'><?php echo $row['amount']?> руб.</div></td>
+                <td><div class='text-center'><?php echo($row['paid_date'] == 0 ? "Новый клиент" : $row['paid_date'])?></div></td>
                 <td><div class='text-center'><?php echo $row['services']?></div></td>
                 <td><div class='text-center'><?php echo $row['plan']?> мес.</div></td>
+                <td><div class='text-center'><?php echo $row['amount']?> руб.</div></td>
                 <td><div class='text-center'><a href='user-payment.php?id=<?php echo $row['user_id']?>'><button class='btn btn-success btn'><i class='fas fa-dollar-sign'></i> Произвести оплату</button></a></div></td>
                 <td><div class='text-center'><a href='sendReminder.php?id=<?php echo $row['user_id']?>'><button class='btn btn-danger btn' <?php echo($row['reminder'] == 1 ? "disabled" : "")?>>Напомнить</button></a></div></td>
               </tbody>

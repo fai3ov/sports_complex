@@ -103,29 +103,22 @@ while($row=mysqli_fetch_array($result)){
                                             <td class="width70"><strong><?php echo $row['fullname']; ?></strong></td>
                                         </tr>
                                         <tr>
-                                            <td>Услуга :</td>
+                                            <td>Выбранные услуги :</td>
                                             <input type="hidden" name="services" value="<?php echo $row['services']; ?>">
                                             <td><strong><?php echo $row['services']; ?></strong></td>
                                         </tr>
+
                                         <tr>
-                                            <td>Сумма в месяц :</td>
-                                            <td><input id="amount" type="number" name="amount" value='<?php if($row['services'] == 'Fitness') { echo '55';} elseif ($row['services'] == 'Sauna') { echo '35';} else {echo '40';} ?>' /></td>
+                                            <td>Стоимость плана:</td>
+                                            <input type="hidden" name="amount" value="<?php echo $row['amount']; ?>">
+                                            <td><strong><?php echo $row['amount']; ?></strong></td>
                                         </tr>
 
-                                        <input type="hidden" name="paid_date" value="<?php echo $row['paid_date']; ?>">
-
                                         <td class="width30">План :</td>
-                                        <td class="width70">
-                                            <div class="controls">
-                                                <select name="plan" required="required" id="select">
-                                                    <option value="1" selected="selected" >1 месяц</option>
-                                                    <option value="3">3 месяца</option>
-                                                    <option value="6">6 месяцев</option>
-                                                    <option value="12">1 год</option>
-                                                    <option value="0">Бессрочно</option>
-
-                                                </select>
-                                            </div>
+                                        <div class="controls">
+                                            <input type="hidden" name="plan" value="<?php echo $row['plan']; ?>">
+                                            <td><strong><?php echo $row['plan']; ?></strong></td>
+                                        </div>
 
                                         </td>
 
@@ -137,8 +130,6 @@ while($row=mysqli_fetch_array($result)){
                                             <div class="controls">
                                                 <select name="status" required="required" id="select">
                                                     <option value="Active" selected="selected" >Активен</option>
-                                                    <option value="Expired">Истёк</option>
-
                                                 </select>
                                             </div>
                                         </td>
@@ -147,6 +138,8 @@ while($row=mysqli_fetch_array($result)){
 
                                 </table>
                             </div>
+
+
 
 
                         </div> <!-- row-fluid ends here -->

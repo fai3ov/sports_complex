@@ -53,8 +53,8 @@ header('location:../index.php');
           <h5>Личная информация</h5>
         </div>
         <div class="widget-content nopadding">
-          <form action="add-member-req.php" method="POST" class="form-horizontal">
-            <div class="control-group">
+          <form action="add-member-req.php" method="POST" class="form-horizontal" id="memberForm">
+              <div class="control-group">
               <label class="control-label">Полное имя :</label>
               <div class="controls">
                 <input type="text" class="span11" name="fullname" placeholder="Полное имя" required />
@@ -83,9 +83,9 @@ header('location:../index.php');
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label">Дата регистрации :</label>
+              <label class="control-label">Дата рождения :</label>
               <div class="controls">
-                <input type="date" name="dor" class="span11" />
+                <input type="date" name="dob" class="span11" />
                </div>
             </div>
         </div>
@@ -99,7 +99,7 @@ header('location:../index.php');
             <div class="control-group">
               <label for="normal" class="control-label">План : </label>
               <div class="controls">
-                <select name="plan" required="required" id="select">
+                <select name="plan" required="required" id="planSelect">
                   <option value="1" selected="selected">1 месяц</option>
                   <option value="3">3 месяца</option>
                   <option value="6">6 месяцев</option>
@@ -142,29 +142,23 @@ header('location:../index.php');
         </div>
         <div class="widget-content nopadding">
           <div class="form-horizontal">
-            
-            
-            <div class="control-group">
-              <label class="control-label">Услуги</label>
-              <div class="controls">
-                <label>
-                  <input type="radio" value="Фитнес" name="services" />
-                  Фитнес <small>- 10 000 руб./мес.</small></label>
-                <label>
-                  <input type="radio" value="Сауна" name="services" />
-                  Сауна <small>- 5 000 руб./мес.</small></label>
-                <label>
-                  <input type="radio" value="Кардио" name="services" />
-                  Кардио <small>- 8 000 руб./мес.</small></label>
+
+
+              <div class="control-group">
+                  <label class="control-label">Услуги</label>
+                  <div class="controls">
+                      <label><input type="checkbox" value="Фитнес" name="services[]" /> Фитнес <small>- 10 000 руб./мес.</small></label>
+                      <label><input type="checkbox" value="Сауна" name="services[]" /> Сауна <small>- 5 000 руб./мес.</small></label>
+                      <label><input type="checkbox" value="Кардио" name="services[]" /> Кардио <small>- 8 000 руб./мес.</small></label>
+                  </div>
               </div>
-            </div>
 
             <div class="control-group">
               <label class="control-label">Общая сумма</label>
               <div class="controls">
                 <div class="input-append">
                   <span class="add-on">₽</span>
-                  <input type="number" placeholder="50" name="amount" class="span11">
+                  <input type="number" placeholder="50" name="amount" class="span11" readonly>
                   </div>
               </div>
             </div>
@@ -217,7 +211,64 @@ header('location:../index.php');
 <script src="../js/select2.min.js"></script> 
 <script src="../js/matrix.popover.js"></script> 
 <script src="../js/jquery.dataTables.min.js"></script> 
-<script src="../js/matrix.tables.js"></script> 
+<script src="../js/matrix.tables.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function updateTotal() {
+            // Обновите идентификатор для вашего элемента выбора плана здесь
+            var selectedPlan = document.getElementById('planSelect').value;
+
+            var planMultiplier = {
+                '1': 1,
+                '3': 3,
+                '6': 6,
+                '12': 12
+            };
+
+            var servicePrices = {
+                'Фитнес': 10000,
+                'Сауна': 5000,
+                'Кардио': 8000
+            };
+
+            var serviceCheckboxes = document.querySelectorAll('input[name="services[]"]:checked');
+            var total = 0;
+
+            serviceCheckboxes.forEach(function(checkbox) {
+                total += servicePrices[checkbox.value];
+            });
+
+            // Применяем множитель плана к итоговой сумме
+            total *= planMultiplier[selectedPlan];
+
+            document.querySelector('input[name="amount"]').value = total;
+        }
+
+        // Обновите идентификатор здесь также
+        document.getElementById('planSelect').addEventListener('change', updateTotal);
+
+        document.querySelectorAll('input[name="services[]"]').forEach(function(checkbox) {
+            checkbox.addEventListener('change', updateTotal);
+        });
+
+        document.getElementById('memberForm').addEventListener('submit', function(event) {
+            // Поиск всех чекбоксов с именем 'services[]'
+            var services = document.querySelectorAll('input[name="services[]"]');
+            var serviceSelected = Array.from(services).some(checkbox => checkbox.checked);
+
+            // Если услуга не выбрана, предотвратить отправку формы и показать сообщение
+            if(!serviceSelected) {
+                event.preventDefault(); // Предотвращение отправки формы
+                alert('Пожалуйста, выберите хотя бы одну услугу.');
+            }
+        });
+
+        // Инициализация итоговой суммы при загрузке страницы
+        updateTotal();
+    });
+</script>
+
 
 <script type="text/javascript">
     // Эта функция вызывается из всплывающих меню для перехода на другую страницу.

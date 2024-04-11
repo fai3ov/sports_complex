@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Мар 18 2024 г., 09:23
+-- Время создания: Апр 11 2024 г., 01:23
 -- Версия сервера: 10.4.32-MariaDB
 -- Версия PHP: 8.2.12
 
@@ -100,7 +100,8 @@ CREATE TABLE `equipment` (
 INSERT INTO `equipment` (`id`, `name`, `amount`, `quantity`, `vendor`, `description`, `address`, `contact`, `date`) VALUES
 (13, 'Беговая дорожка', 500000, 10, 'SportTech Innovations', 'Кардиотренажёр', 'Казань, ул. Спортивная, д. 1', '9991001010', '2023-10-01'),
 (14, 'Эллиптический тренажёр', 230000, 10, 'SportTech Innovations', 'Кардиотренажёр', 'Казань, ул. Спортивная, д. 1', '9991001010', '2023-10-01'),
-(15, 'Велотренажёр', 1500000, 10, 'SportTech Innovations', 'Кардиотренажёр', 'Казань, ул. Спортивная, д. 1', '9991001010', '2023-10-01');
+(15, 'Велотренажёр', 1500000, 10, 'SportTech Innovations', 'Кардиотренажёр', 'Казань, ул. Спортивная, д. 1', '9991001010', '2023-10-01'),
+(24, 'g', 50000, 5, 'h', 'g', 'h', '8888888888', '2023-02-01');
 
 -- --------------------------------------------------------
 
@@ -114,33 +115,37 @@ CREATE TABLE `members` (
   `username` varchar(20) NOT NULL,
   `password` varchar(255) NOT NULL,
   `gender` varchar(20) NOT NULL,
-  `dor` date NOT NULL,
+  `dob` date NOT NULL,
+  `dor` date NOT NULL DEFAULT current_timestamp(),
   `services` varchar(50) NOT NULL,
-  `amount` int(100) NOT NULL,
-  `paid_date` date NOT NULL,
-  `p_year` int(11) NOT NULL,
+  `amount` int(100) DEFAULT NULL,
+  `paid_date` date DEFAULT NULL,
+  `end_of_plan` date DEFAULT NULL,
   `plan` varchar(100) NOT NULL,
   `address` varchar(255) NOT NULL,
   `contact` varchar(10) NOT NULL,
-  `status` varchar(20) NOT NULL DEFAULT 'Active',
+  `status` varchar(20) NOT NULL DEFAULT 'Pending',
   `attendance_count` int(100) NOT NULL,
   `ini_weight` int(100) NOT NULL DEFAULT 0,
   `curr_weight` int(100) NOT NULL DEFAULT 0,
   `ini_bodytype` varchar(50) NOT NULL,
   `curr_bodytype` varchar(50) NOT NULL,
-  `progress_date` date NOT NULL,
-  `reminder` int(11) NOT NULL DEFAULT 0
+  `progress_date` date DEFAULT NULL,
+  `reminder` int(11) NOT NULL DEFAULT 0,
+  `last_reminder_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Дамп данных таблицы `members`
 --
 
-INSERT INTO `members` (`user_id`, `fullname`, `username`, `password`, `gender`, `dor`, `services`, `amount`, `paid_date`, `p_year`, `plan`, `address`, `contact`, `status`, `attendance_count`, `ini_weight`, `curr_weight`, `ini_bodytype`, `curr_bodytype`, `progress_date`, `reminder`) VALUES
-(39, 'Иванов Иван Иванович', 'ivanovivan', '5a8b6108cf9ce70d7382befcd2c169fe', 'Мужской', '2023-11-01', 'Фитнес', 40, '0000-00-00', 2024, '1', 'Казань, ул. Красносельская, д. 51', '9001001010', 'Active', 2, 120, 95, 'Избыточный вес', 'Плотное', '2024-03-11', 1),
-(40, 'Смирнов Иван Иванович', 'smirnovivan', 'c631473c6ce6a225b2dff904474fc148', 'Мужской', '2023-11-02', 'Кардио', 48000, '2024-03-11', 2024, '6', 'Казань, ул. Декабристов, д. 131', '9001001111', 'Active', 5, 0, 0, '', '', '0000-00-00', 1),
-(41, 'Белов Алексей Романович', 'belovalexey', 'c62de066c0f4ed9a01a561005218f1ea', 'Мужской', '2023-11-03', 'Кардио', 8000, '2024-03-11', 2024, '1', 'Казань, ул. Чистопольская, д. 12', '9001001212', 'Active', 10, 0, 0, '', '', '0000-00-00', 1),
-(51, 'Черных Валерий Иванович', 'chernykhvalery', '189b22607d466683335a6e44196c552e', 'Мужской', '2024-03-18', 'Сауна', 30000, '2024-03-18', 2024, '6', 'Казань, ул. Чистопольская, д. 25', '9001001313', 'Active', 0, 0, 0, '', '', '0000-00-00', 0);
+INSERT INTO `members` (`user_id`, `fullname`, `username`, `password`, `gender`, `dob`, `dor`, `services`, `amount`, `paid_date`, `end_of_plan`, `plan`, `address`, `contact`, `status`, `attendance_count`, `ini_weight`, `curr_weight`, `ini_bodytype`, `curr_bodytype`, `progress_date`, `reminder`, `last_reminder_date`) VALUES
+(80, 'Иванов Иван Иванович', 'ivan', '81dc9bdb52d04dc20036dbd8313ed055', 'Мужской', '1990-01-01', '2024-04-10', 'Фитнес, Сауна', 45000, '2024-04-10', '2024-07-10', '3', 'Казань', '9000000000', 'Active', 2, 100, 75, 'Толстое', 'Плотное', '2024-04-10', 1, '2024-04-10'),
+(81, 'Игнатов Игнат Игнатович', 'ignat', '81dc9bdb52d04dc20036dbd8313ed055', 'Мужской', '2002-01-01', '2024-04-10', 'Фитнес, Сауна, Кардио', 276000, '2024-04-10', '2025-04-10', '12', 'Казань', '9000000000', 'Active', 2, 0, 0, '', '', NULL, 1, '2024-04-10'),
+(82, 'Иванова Екатерина Михайловна', 'kate', '81dc9bdb52d04dc20036dbd8313ed055', 'Женский', '2002-01-01', '2024-04-10', 'Фитнес, Кардио', 54000, '2024-04-10', '2024-07-10', '3', 'Казань', '9000000000', 'Active', 1, 0, 0, '', '', NULL, 0, NULL),
+(83, 'Алексеев Алексей Алексеевич', 'alex', '81dc9bdb52d04dc20036dbd8313ed055', 'Мужской', '1980-01-01', '2024-04-10', 'Фитнес, Сауна, Кардио', 138000, '2024-04-10', '2024-10-10', '6', 'Казань', '9000000000', 'Active', 12, 0, 0, '', '', NULL, 1, '2024-04-10'),
+(85, 'Попова Алёна Андреевна', 'alyona', '81dc9bdb52d04dc20036dbd8313ed055', 'Женский', '1995-05-01', '2024-04-11', 'Фитнес, Кардио', 108000, '2024-04-11', '2024-10-11', '6', 'Казань', '9000000000', 'Active', 2, 0, 0, '', '', NULL, 1, '2024-04-11'),
+(104, 'Артёмов Артём Артёмович', 'artyom', '81dc9bdb52d04dc20036dbd8313ed055', 'Мужской', '2002-02-01', '2024-04-11', 'Фитнес, Сауна, Кардио', 23000, '2024-04-11', '2024-05-11', '1', 'Казань', '9000000000', 'Active', 0, 0, 0, '', '', NULL, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -242,7 +247,8 @@ INSERT INTO `todo` (`id`, `task_status`, `task_desc`, `user_id`) VALUES
 (28, 'In Progress', 'Test 1', 23),
 (44, 'In Progress', '44', 0),
 (53, 'In Progress', 'Планка 5 мин', 2),
-(54, 'In Progress', 'Планка 5 мин', 51);
+(54, 'In Progress', 'Планка 5 мин', 51),
+(55, 'In Progress', 'Прыгать', 79);
 
 --
 -- Индексы сохранённых таблиц
@@ -322,19 +328,19 @@ ALTER TABLE `announcements`
 -- AUTO_INCREMENT для таблицы `attendance`
 --
 ALTER TABLE `attendance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
 
 --
 -- AUTO_INCREMENT для таблицы `equipment`
 --
 ALTER TABLE `equipment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT для таблицы `members`
 --
 ALTER TABLE `members`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
 
 --
 -- AUTO_INCREMENT для таблицы `rates`
@@ -358,7 +364,7 @@ ALTER TABLE `staffs`
 -- AUTO_INCREMENT для таблицы `todo`
 --
 ALTER TABLE `todo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

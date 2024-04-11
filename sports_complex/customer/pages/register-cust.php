@@ -19,22 +19,62 @@
     <?php
 
     if (isset($_POST['fullname'])) {
+        // Собираем данные из формы
         $fullname = $_POST["fullname"];
         $username = $_POST["username"];
-        $password = $_POST["password"];
+        $password = md5($_POST["password"]);
         $gender = $_POST["gender"];
-        $services = $_POST["services"];
+        $dob = $_POST["dob"];
+        $servicesArray = $_POST["services"];
         $plan = $_POST["plan"];
         $address = $_POST["address"];
         $contact = $_POST["contact"];
 
-        $password = md5($password);
+        // По умолчанию значения для полей, которые не заполняются формой
+        $dor = date("Y-m-d");   // Текущая дата для dor
+        $paid_date = NULL;      // NULL для paid_date
+        $end_of_plan = NULL;    // NULL для end_of_plan
+        $status = 'Pending';    // Значение по умолчанию для статуса
+        $attendance_count = 0;  // Начальное значение счётчика посещений
+        $ini_weight = 0;        // Начальный вес
+        $curr_weight = 0;       // Текущий вес
+        $ini_bodytype = '';     // Начальный тип телосложения
+        $curr_bodytype = '';    // Текущий тип телосложения
+        $progress_date = NULL;  // NULL для progress_date
+        $reminder = 0;          // Напоминание
+        $last_reminder_date	= NULL;     // NULL для last_reminder_date
 
-        include 'dbcon.php';
+        // Рассчитываем сумму услуг
+        $servicesTotal = 0;
+        foreach ($servicesArray as $service) {
+            switch ($service) {
+                case "Фитнес":
+                    $servicesTotal += 10000;
+                    break;
+                case "Сауна":
+                    $servicesTotal += 5000;
+                    break;
+                case "Кардио":
+                    $servicesTotal += 8000;
+                    break;
+            }
+        }
 
-        $qry = "INSERT INTO members(fullname, username, password, gender, dor, services, amount, paid_date, p_year, plan, address, contact, status, attendance_count, ini_weight, curr_weight, ini_bodytype, curr_bodytype, progress_date, reminder) values ('$fullname', '$username', '$password', '$gender', CURRENT_TIMESTAMP, '$services', 0, NULL, NULL, '$plan', '$address', '$contact', 'Pending', 0, 0, 0, '', '', NULL, 0)";
+        // Умножаем сумму услуг на количество месяцев плана
+        $amount = $servicesTotal * $plan;
 
-        $result = mysqli_query($con, $qry);
+        $services = implode(', ', $servicesArray); // Преобразуем массив услуг в строку для вставки в базу данных
+
+        include 'dbcon.php'; // Подключение к базе данных
+
+        // Подготовка SQL запроса
+        $qry = $con->prepare("INSERT INTO members (fullname, username, password, gender, dob, dor, services, amount, paid_date, end_of_plan, plan, address, contact, status, attendance_count, ini_weight, curr_weight, ini_bodytype, curr_bodytype,progress_date, reminder, last_reminder_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+        // Привязка параметров
+        $qry->bind_param("sssssssissssssiiisssis", $fullname, $username, $password, $gender, $dob, $dor, $services, $amount, $paid_date, $end_of_plan, $plan, $address, $contact, $status, $attendance_count, $ini_weight, $curr_weight, $ini_bodytype, $curr_bodytype, $progress_date, $reminder, $last_reminder_date);
+
+        // Выполнение запроса
+        $result = $qry->execute();
 
         if (!$result) {
             echo "<div class='container-fluid'>";
@@ -66,8 +106,8 @@
             echo "<div class='widget-content'>";
             echo "<div class='error_ex'>";
             echo "<h1>Успех</h1>";
-            echo "<h3>Информация о клиенте добавлена!</h3>";
-            echo "<p>Запрошенные детали добавлены. Пожалуйста, нажмите кнопку, чтобы вернуться назад.</p>";
+            echo "<h3>Мы рады, что Вы выбрали наш спорткомплекс!</h3>";
+            echo "<p>Скоро с Вами свяжутся сотрудники нашего спорткомплекса для дальнейшей регистрации. Пожалуйста, нажмите кнопку, чтобы вернуться назад.</p>";
             echo "<a class='btn btn-inverse btn-big'  href='../index.php'>Назад</a> </div>";
             echo "</div>";
             echo "</div>";

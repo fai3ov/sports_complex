@@ -79,7 +79,7 @@ if(!isset($_SESSION['user_id'])){
                 <td><div class='text-center'><?php echo $cnt; ?></div></td>
                 <td><div class='text-center'><?php echo $row['fullname']; ?></div></td>
                 <td><div class='text-center'><?php if($row['plan'] == 1) { echo $row['plan']. ' Month';} else if($row['plan'] == '0') { echo'Expired';} else { echo $row['plan']. ' мес.'; } ?></div></td>
-                <td><div class='text-center'><?php if($row['attendance_count'] == 1) { echo $row['attendance_count']. ' Day';} else if($row['attendance_count'] == '0') { echo'None';} else { echo $row['attendance_count']. ' раз'; } ?>  </div></td>
+                <td><div class='text-center'><?php if($row['attendance_count'] == 1) { echo $row['attendance_count']. ' раз';} else if($row['attendance_count'] == '0') { echo'Нет посещений';} else { echo $row['attendance_count']. ' раз(-а)'; } ?>  </div></td>
               </tbody>
            <?php $cnt++; } ?>
            

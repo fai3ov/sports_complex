@@ -44,25 +44,23 @@ header('location:../index.php');
   <h1>Обновление данных клиентов</h1>
 </div>
 <form role="form" action="index.php" method="POST">
-    <?php 
-
+    <?php
             if(isset($_POST['fullname'])){
-            $fullname = $_POST["fullname"];    
+            $fullname = $_POST["fullname"];
             $username = $_POST["username"];
-            $dor = $_POST["dor"];
+            $dob = $_POST["dob"];
             $gender = $_POST["gender"];
-            $services = $_POST["services"];
+            $services = isset($_POST["services"]) ? implode(', ', $_POST["services"]) : ''; // Преобразуем выбранные услуги в строку
             $amount = $_POST["amount"];
             $plan = $_POST["plan"];
             $address = $_POST["address"];
             $contact = $_POST["contact"];
             $id = $_POST["id"];
 
-            $totalamount = $amount * $plan;
-            
             include 'dbcon.php';
 
-            $qry = "update members set fullname='$fullname', username='$username',dor='$dor', gender='$gender', services='$services', amount='$totalamount', plan='$plan', address='$address', contact='$contact' where user_id='$id'";
+            $qry = "update members set fullname='$fullname', username='$username',dob='$dob', gender='$gender', services='$services', amount='$amount', plan='$plan', address='$address', contact='$contact' where user_id='$id'";
+
             $result = mysqli_query($conn,$qry);
 
             if(!$result){
